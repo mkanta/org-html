@@ -1,0 +1,34 @@
+#+TITLE: Matthias Kanta
+#+HTML_DOCTYPE: html5
+#+HTML_CONTAINER: section
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/topmenu.css">
+#+HTML_HEAD: <script src="js/org-bindings.js" defer="defer"></script>
+* Home
+  :PROPERTIES:
+  :UNNUMBERED: t
+  :END:
+- Functional programmer with a preference for Haskell-type languages.
+- Mathematician with a predilection for mathematics related to quantum
+  theory.
+- Logician with an urge to understand intelligence, artificial and otherwise.
+- Statistician with an interest in the workings of high finance.
+* Apps                                                             :noexport:
+  :PROPERTIES:
+  :UNNUMBERED: t
+  :END:
+Here are some of the applications I wrote to run in the browser. They will need
+a browser that is fully HTML 5 compliant with javascript enabled.
+* Rants                                                            :noexport:
+  :PROPERTIES:
+  :UNNUMBERED: t
+  :END:
+My opinions on various subjects. Feel free to be offended.
+* Contact
+  :PROPERTIES:
+  :UNNUMBERED: t
+  :END:
+Send messages, comments and insults to my LinkedIn account.
+* About                                                            :noexport:
+  :PROPERTIES:
+  :UNNUMBERED: t
+  :END:
