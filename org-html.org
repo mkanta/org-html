@@ -1,0 +1,600 @@
+The Project File. Everything gets tangled out to its proper place.
+* TODO                                                             :noexport:
+- Add scripting to set class expandable an all anchors followed by a ul
+  in nav.
+- Do the styling for horizontal top menus. Try if this can be made into
+  a dropdown menu just using lists. The w3schools examples use a div, however
+  see https://css-snippets.com/simple-horizontal-navigation/
+* Project Header                                                   :noexport:
+:PROPERTIES:
+:PRJ-DIR: ~/prj/dir/
+:END:
+An example to tangle to a project directory. Is there a way to create it
+if it doesn't exist?
+# #+BEGIN_SRC js :tangle (concat (org-entry-get nil "PRJ-DIR" t) "filename.js")
+ #  var a = 2;
+# #+END_SRC
+* CSS for Org-Generated HTML
+** Menu in Left Panel
+   :PROPERTIES:
+   :header-args: :tangle "_site/css/leftmenu.css"
+   :END:
+   :LOGBOOK:
+   CLOCK: [2019-07-13 Sat 16:45]--[2019-07-13 Sat 17:49] =>  1:04
+   :END:
+ # +PROPERTY: header-args :tangle "_site/css/leftmenu.css"
+ Style for html created from org-mode. Puts table of contents as a menu on
+ the left side. Header-args doesn't work, it uses the src/bindings.purs from
+ below. Fails silently when parent directory does not exist.
+*** Header and Title
+ A blue sky header at a fixed position. Interferes with headlines. Blue sky
+ on green panel looks weird, needs more work.
+ #+BEGIN_SRC css
+ body {margin: 0;}
+ header {
+     margin-left: 25%;
+     padding: 0;
+     width: 100%;
+     height: 40px;
+     position: fixed;
+     top: 0px;
+     background-color: DeepSkyBlue;
+ }
+ #+END_SRC
+ This needs some more work. Perhaps center this.
+ #+BEGIN_SRC css :tangle
+ h1.title { /*may want to center this*/
+     display: inline;
+ }
+ #+END_SRC
+*** The Table of Contents
+ We really want two kinds of table of contents, one as a panel on the left
+ and one stretching along the top. The left panel style is meant for content
+ that has several levels of sections, whereas the top style is more for index
+ files with at most two section levels.
+ #+BEGIN_SRC css 
+ /* Put the table of contents as a panel on the left */
+ nav {
+     margin: 0;
+     padding: 0;
+     width: 25%;
+     height: 100%;
+     position: fixed;
+     top: 0px;
+     left: 0px;
+     overflow: auto;
+     background-color: DarkGreen;
+ }
+ /* Turn off bullets for lists in navigation and make them invisible.
+    Top level lists are turned back on below.*/ 
+ nav ul {
+     list-style-type: none;
+     display: none;
+ }
+ #+END_SRC   
+ To make subsections visible, /:hover/ can be used. Note however, that the 
+ section would have to be /expanded/ to render the visibility more permanent.
+ #+BEGIN_SRC css
+ nav ul li a:hover + ul {
+     display: block;
+ }
+ #+END_SRC
+ Anchors of class /expanded/ should make any sub <ul> environments visible. 
+ Originally, this used /active/ instead, which is like a focus. The problem with 
+ using focus is the default behaviour of focus on anchors, which is lost on 
+ mouseup. 
+
+ So a simple styling with the ~:focus~ pseudo-class does not work, even if the 
+ anchors are given a tabindex of -1 or 0, the latter activating traversal with 
+ the tab key. As a consequence, the implementation of the proper behaviour would 
+ have to be achieved by scripts manipulating the focus.
+ #+BEGIN_SRC css
+ /* This one makes ul elements following an expanded anchor visible*/
+ nav ul li a.expanded + ul {
+     display: block;
+ }
+ #+END_SRC
+ Put the top level contents as far to the left as possible so there is enough
+ space, even if the subsections go quirte deep.
+ #+BEGIN_SRC css
+ nav >div> ul {
+   margin: 0;
+   padding: 0;
+   display: block;
+ }
+ #+END_SRC
+ Hide "Table of Contents" headline.
+ #+BEGIN_SRC css
+ /* The <h2> directly descending from the nav is the Table of Contents 
+    headline, hide it. */
+ nav > h2 {
+     display: none;
+ }
+ #+END_SRC
+ The anchor representing an entry in the table of contents.
+ #+BEGIN_SRC css
+ nav ul li a {
+   display: block;
+   color: gold;
+   padding: 8px 16px;
+   text-decoration: none;
+ }
+ #+END_SRC
+ If this anchor can be expanded, this should be indicated by an arrow, but
+ only if it is not expanded already. (Find something better than ->, maybe
+ some unicode thing or something). 
+ #+BEGIN_SRC css
+ nav ul li a.expandable:not(.expanded)::after {
+   content: "->"
+ }
+ #+END_SRC
+ Top-level anchors should be considered expandable if they have a ul sibling.
+ This is not going to work, this refers to an anchor preceded by a ul. Use
+ scripting to make top-level anchors expandable if they are followed by a ul.
+ #+BEGIN_SRC css
+ nav > ul > li > ul ~ a:not(.expanded)::after {
+   content: "->"
+ }
+ #+END_SRC
+ #+BEGIN_SRC css
+ nav ul li a.expanded::after {
+   content: "<-"
+ }
+ #+END_SRC
+ This one shouldn't be necessary anymore because visibility should be determined
+ by expandedness due to the inherent problems with being active regarding sub
+ lists.
+ #+BEGIN_SRC css
+ /* This one makes ul elements following an active anchor visible*/
+ /* Note this is not sufficient: if a subheader becomes active it will vanish
+    because the parent becomes inactive and vanishes. So <ul>s containing an
+    active anchor should be displayed, too.*/
+ nav ul li a.active + ul {
+     display: block;
+ }
+ #+END_SRC
+ Colours for active anchors. Not used at the moment because expandedness is the
+ main criterion.
+ #+BEGIN_SRC css
+ nav ul li a:hover:not(.active) {
+     background-color: ForestGreen;
+ }
+
+ nav ul li a.active {
+     background-color: green;
+ }
+ #+END_SRC
+ The problem right now is the title on the top because it covers the headline
+ of the sections and the need to move the content of the sections to the right
+ of the menu panel. While this move works the top padding doesn't and needs more
+ investigation.
+ #+BEGIN_SRC css
+ /* Putting content to the right of the navigation panel and 50 pixels down*/
+ section {
+   margin-left: 26%;
+   padding-top: 50px;
+   height: 1000px;
+ }
+ #+END_SRC
+** Menu on Top
+   :PROPERTIES:
+   :header-args: :tangle "_site/css/topmenu.css"
+   :END:
+This should essentially be a navbar across the top with dropdown functionality.
+For the horizontal bar, see
+https://css-snippets.com/simple-horizontal-navigation/.
+Also see http://www.ucs.mun.ca/~branigan/css/pjb-updated.css for how to make
+this work with a title, as this is a site generated by org-mode.
+
+All the lists in navigation will be invisible,
+#+BEGIN_SRC css
+nav ul {
+    list-style-type: none;
+    display: none;
+}
+#+End_SRC
+except for the top-level ones. 
+#+BEGIN_SRC css
+nav > div > ul {
+   margin: 0;
+   padding: 0; /*for better centering*/
+   display: block;
+}
+#+END_SRC
+See how this looks and change marging and/or padding if necessary. Note that
+with padding the list may be slightly off-centre.
+
+For the top list to go across, the list elements need to flow left.
+#+BEGIN_SRC css
+nav > div > ul > li {
+   float: left;
+}
+/*But this needs adjustments to nav ul:*/
+nav ul {
+   overflow: auto;
+   width: 100%;
+   margin: 0 auto;
+}
+/*and perhaps to the background colour of nav*/
+#+END_SRC
+Note that this can also be achieved by setting ~display~ to ~inline-block~ instead
+of using ~float~.
+* Menu Bindings to Org-Generated HTML
+  :PROPERTIES:
+  :header-args: :tangle "src/bindings.purs"
+  :END:
+# Note: +PROPERTY is no good because it is buffer global, that's why it is
+# commented out
+# +PROPERTY: header-args :tangle "src/bindings.purs"
+  :LOGBOOK:
+  CLOCK: [2019-07-07 Sun 09:37]--[2019-07-07 Sun 12:23] =>  2:46
+  CLOCK: [2019-07-06 Sat 11:20]--[2019-07-06 Sat 13:29] =>  2:09
+  CLOCK: [2019-07-05 Fri 09:12]--[2019-07-05 Fri 11:15] =>  2:03
+  CLOCK: [2019-07-03 Wed 11:07]--[2019-07-03 Wed 13:44] =>  2:37
+  CLOCK: [2019-07-02 Tue 09:13]--[2019-07-02 Tue 12:48] =>  3:35
+  CLOCK: [2019-07-01 Mon 12:27]--[2019-07-01 Mon 21:30] =>  9:03
+  CLOCK: [2019-06-30 Sun 18:43]--[2019-06-30 Sun 20:34] =>  1:51
+  :END:
+# TODO: remove obsolete code, the toArray functionality for HTMLCollection
+# and NodeList has side-effects that prevent the setting of eg. class names
+# on the corresponding elements. Can remove the experimental code, see the
+# resetActive function for the differences. Put the css-code into this file
+# as well and tangle it out to
+
+Functions to bind to the nav-menu to get some functionality. There are two
+functions currently:
+ - An Activation Listener :: 
+   When clicking an anchor in a list item in a menu, this anchor becomes
+   active by setting class /active/ on it. This is like a focus in the sense
+   that all other anchors in the menu become inactive.
+ - An Expansion Listener ::
+   When clicking an anchor in a menu, the class /expanded/ is toggled for that
+   anchor. Styling is used to expand the sub-menu for that anchor while it is
+   expanded. Other than with activation, several anchors can be expanded at
+   the same time.
+** Implementation Requirements
+What's the easiest way to do that? Here are the requirements:
+- The listener should react to clicks on the anchor. Since the same listener
+  works for all anchors, it should be attached once to a common parent and
+  use the event bubbling mechanism to manipulate the clicked anchor element.
+  is a lot of work. The common target best suited for that purpose is the <div>
+  element with id #text-table-of-contents inside the <nav> containing the
+  table of contents.
+- This listener has to set the target element, which is the element where the
+  click occured, to /active/ or toggle its /expanded/ class.
+- The activation listener also has to remove class /active/ from all other 
+  anchors in the menu. This is best achieved with a call to ~querySelectorAll~ 
+  with ~QuerySelector "a.active"~ on the ~currentTarget~, which is the element
+  where the listener resides.
+** Alternatives                                                    :noexport:
+- Using focus: if the anchors have a tabindex="0" property, tabbing through
+  them works as expected. However, clicking will not set the focus, or at
+  least only as long as the mouse is down. This has to be done programatically
+  with the HTMLElement.focus() function. If this is called in an onmousedown
+  event, preventDefault() has to be called on the event, otherwise focus will be
+  lost again. But then the tabindex would have to be set on all anchors in the
+  nav menu and mousedown would have to be handled in all anchors. Actually not:
+  mousedown needs to be handled only in the div, just set the focus on the 
+  target.
+** Using QuerySelector
+#+BEGIN_SRC purescript :tangle no
+import Web.DOM.ParentNode (QuerySelector(..), querySelectorAll)
+querySelectorAll :: QuerySelector -> ParentNode -> Effect NodeList
+#+END_SRC
+This is a function calling javascript's ~ParentNode.querySelectorAll~ as a foreign
+function and returns a possibly empty list of nodes. 
+
+Unfortunately it doesn't catch the SyntaxError exception that may
+occur on the javascript side if the selector syntax is incorrect
+(As of 3.0.0 of purescript-web-dom). On the purescript side there is currently
+no way to enforce the correct syntax of css selector strings when constructing
+~QuerySelector~ objects.
+
+A possible remedy is provided with the utilities in CSS.Selector from 
+purescript-css to construct a valid selector and then obtain a selector string 
+that can be used as a query selector.
+
+Note that it only verifies if the last element in the selector is within the 
+search scope. If this is a problem, use the :scope pseudoclass which requires 
+that all elements following it be in the search scope, ie descendants of the 
+parent node. See the discussion in
+https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/querySelectorAll
+
+There is a problem with the returned ~NodeList~: for some reason mapping over
+its conversion to an array doesn't change the elements.
+That is not the problem, the regular map doesn't work on arrays.
+** Library Functions Needed for the Implementation
+*** Get the Event Targets
+ In order to get the event targets, two functions are needed.
+ #+BEGIN_SRC purescript :tangle no
+ -- From Web.Event.Event
+ -- the element where the event handler is attached
+ currentTarget :: Event -> Maybe EventTarget
+ -- the element where the event occured
+ target :: Event -> Maybe EventTarget
+ #+END_SRC
+*** Cast the Targets
+ Since the purescript-web-* libraries are very low level FFI wrappers around
+ the javascript interface, a lot of the work for 
+ handling events consists of type conversions. To do something with EventTargets,
+ they need to be converted to Nodes or HTML elements. In order to use 
+ ~querySelectorAll~, the event targets have to be cast to ~ParentNode~.
+ #+BEGIN_SRC purescript :tangle no
+ -- From Web.DOM.Element
+ fromEventTarget :: EventTarget -> Maybe Element
+ toParentNode :: Element -> ParentNode
+ -- from Web.HTML.HTMLElement
+ fromNode :: Node -> Maybe HTMLElement
+ fromElement :: Element -> Maybe HTMLElement
+ #+END_SRC
+ There are numerous versions of ~fromEventTarget~ and ~toParent~, all of the form
+#+BEGIN_SRC purescript :tangle no
+fromEventTarget :: forall a . Target a => EventTarget -> Maybe a
+toParentNode :: forall a. Nodeable a => a -> ParentNode
+#+END_SRC
+ similarly for ~fromNode~ and ~fromElement~.
+*** Manage the Classes
+Classes can be added, removed or toggled by calling the appropriate functions
+on the ~classList~ of an ~HTMLElement~.
+#+BEGIN_SRC purescript :tangle no
+-- From Web.DOM.TokenList
+remove :: DOMTokenList -> String -> Effect Unit
+add :: DOMTokenList -> String -> Effect Unit
+toggle :: DOMTokenList -> String -> Effect Boolean
+-- from Web.HTML.HTMLElement
+classList :: HTMLElement -> Effect DOMTokenList
+#+END_SRC
+*** Handle the Query
+Since ~querySelectorAll~ returns a node list,
+#+BEGIN_SRC purescript :tangle no
+-- Needs Web.Dom.NodeList (NodeList)
+-- from Web.DOM.ParentNode
+querySelectorAll::QuerySelector -> ParentNode -> Effect NodeList
+#+END_SRC
+the ~NodeList~ has to be converted to something useable. There is a ~toArray~ 
+function
+#+BEGIN_SRC purescript :tangle no
+toArray::NodeList -> Effect (Array Node)
+#+END_SRC
+in Web.DOM.NodeList converting the ~NodeList~ into an array of ~Node~.
+*** Attach the Handlers
+ #+BEGIN_SRC purescript :tangle no
+ -- from Web.DOM.NodeList
+ -- From Web.Event.EventTarget
+ addEventListener :: EventType -> EventListener -> Boolean -> EventTarget -> Effect Unit
+ eventListener :: forall a. (Event -> Effect a) -> Effect EventListener
+  -- To handle arrays we need Data.Array
+ toArray :: NodeList -> Effect (Array Node)
+ #+END_SRC
+** The Handler Code
+*** The Header, Module Definition and Import List
+#+BEGIN_SRC purescript
+module Bindings where
+
+import Prelude hiding (add)
+
+import Control.Monad.Rec.Class (Step(..), tailRecM)
+import Data.Array (mapMaybe, length, head, foldMap)
+import Data.Maybe (Maybe(..))
+
+import Effect (Effect)
+import Effect.Console (log) --debugging only
+
+import Web.DOM.Element (fromEventTarget, toParentNode)
+import Web.DOM.Node (Node)
+import Web.DOM.NodeList  (NodeList, item, toArray)
+import Web.DOM.NodeList as NL
+import Web.DOM.ParentNode (ParentNode, QuerySelector(..), querySelectorAll)
+import Web.DOM.DOMTokenList (DOMTokenList, add, remove, toggle)
+import Web.Event.Event (Event, currentTarget, target)
+import Web.DOM.HTMLCollection as HTMLC
+import Web.HTML.HTMLElement (HTMLElement, classList, fromNode)
+import Web.DOM.Element as Elt
+import Web.HTML.HTMLAnchorElement (HTMLAnchorElement,toHTMLElement)
+import Web.HTML.HTMLAnchorElement as Anchor
+#+END_SRC
+
+*** Getting the Parent Node of the Current Target
+First the current target of the event to be handled has to be transformed to
+a parent node in order to run the query on it. The handler will be attached
+to a <div> containing all the menu-anchors generated from the table of 
+contents when exporting org-mode to html. This element will be the 
+/current target/ and has to be converted to a parent node.
+#+BEGIN_SRC purescript
+-- | Get the parent node of the current target
+-- TODO:this should really go through HTMLAnchorElement, ie use
+-- Anchor.fromEventTarget and Anchor.toParentNode
+currentTargetPNode :: Event -> Maybe ParentNode
+currentTargetPNode = (pure <<< toParentNode) <=< fromEventTarget <=< currentTarget
+
+currentTargetElement :: Event -> Maybe Elt.Element
+currentTargetElement = Elt.fromEventTarget <=< currentTarget
+#+END_SRC
+Since ~currentTarget::Event -> Maybe EventTarget~ and 
+~fromEventTarget::EventTarget -> Element~ the two are Kleisli composed in the
+~Maybe~ monad and in order to stay there another Kleisli composition with
+~pure <<< toParentNode~ is performed. The composition with ~pure~ is needed since
+~toParentNode::Element -> ParentNode~.
+
+*** Extracting the Active Anchors within the Parent Node
+Now the anchors having class /active/ can be extracted from the parent node. 
+There are several ways to do that, each with their own shortcomings.
+#+BEGIN_SRC purescript
+-- | Get the active anchors as HTMLAnchorElements. This makes sure that
+-- | only anchors of class active are returned because only those should
+-- | successfully convert from Node to HTMLAnchorElement.
+activeAnchors :: ParentNode -> Effect (Array HTMLAnchorElement)
+activeAnchors parent =  do
+  nodes <- (querySelectorAll (QuerySelector "a.active") parent >>= toArray)
+  pure $ mapMaybe Anchor.fromNode nodes 
+#+END_SRC
+Since ~querySelectorAll~ returns an ~Effect NodeList~, its result has to be fed 
+into ~toArray~ in order to obtain an ~Effect (Array Node)~ which allows to convert
+the nodes into html elements. This is not quite straightforward because ~fromNode~
+only returns a ~Maybe HTMLElement~ but luckily there is ~mapMaybe~ which ignores the
+~Nothing~ values and returns a sanitized array of html elements, possibly empty.
+
+This would be another way to do this, acting directly on the elements.
+#+BEGIN_SRC purescript
+nodeLoop :: (Node -> Effect Unit) -> NodeList -> Effect Unit
+-- now use tailRecM?
+nodeLoop f nl = NL.length nl >>= tailRecM loopItem
+  where 
+    loopItem n = do
+        -- itm <- item n nl
+        item n nl >>= applyFunc f
+        if n==0
+          then pure (Done unit)
+          else pure (Loop (n-1))
+    applyFunc func nodeM = case nodeM of
+                       Just node -> func node
+                       Nothing -> pure unit
+             
+#+END_SRC
+*** Removing the Active Class from Anchors
+Once the html elements are obtained, their class lists can be extracted and
+manipulated. Note that these are computation with side-effects on the 
+javascript side because ~HTMLElement.classList.remove()~ or 
+~HTMLElement.classList.add()~ are called, which change the internal state of
+~HTMLElement~.
+#+BEGIN_SRC purescript 
+-- | manages css class active by applying `f` to the class list with `f`
+-- | being one of `add` ore `remove` from `Web.DOM.DOMTokenList`.
+manageActive :: (DOMTokenList -> String -> Effect Unit) -> HTMLElement -> Effect Unit
+manageActive f elt = classList elt >>= flip f "active" 
+
+removeActive :: HTMLElement -> Effect Unit
+removeActive = manageActive remove
+
+addActive :: HTMLElement -> Effect Unit
+addActive = manageActive add
+
+-- |Same as above, to work on HTMLAnchorElements
+manageActiveAnchor :: (DOMTokenList -> String -> Effect Unit) -> HTMLAnchorElement -> Effect Unit
+manageActiveAnchor f elt = classList (toHTMLElement elt) >>= flip f "active" 
+
+removeActiveAnchor :: HTMLAnchorElement -> Effect Unit
+removeActiveAnchor = manageActiveAnchor remove 
+manageActiveAnchorN :: (HTMLAnchorElement -> Effect Unit) -> Node -> Effect Unit
+manageActiveAnchorN f node = case Anchor.fromNode node of
+                                Just ank -> f ank
+                                Nothing -> pure unit
+-- remove class "active" from a Node that is an anchor
+removeActiveAnchorN :: Node -> Effect Unit
+removeActiveAnchorN = manageActiveAnchorN removeActiveAnchor
+
+addActiveAnchor :: HTMLAnchorElement -> Effect Unit
+addActiveAnchor = manageActiveAnchor add
+
+toggleActive :: HTMLAnchorElement -> Effect Unit
+toggleActive elt = (classList (toHTMLElement elt) >>= flip toggle "active" )  *> pure unit
+
+toggleExpanded :: HTMLAnchorElement -> Effect Unit
+toggleExpanded elt = (classList (toHTMLElement elt) >>= flip toggle "expanded" )  *> pure unit
+#+END_SRC
+*** Getting the Element of Target
+The event target is the element where the event actually occured, in contrast
+to the element where the listener handling the event was affixed. In order to
+add class /active/ to it, its HTMLElement needs to be obtained. In order to make
+sure that the event originated from an anchor, a conversion of the target to an
+anchor is attempted.
+#+BEGIN_SRC purescript 
+targetAnchor :: Event -> Maybe HTMLAnchorElement
+targetAnchor =  Anchor.fromEventTarget <=< target
+#+END_SRC
+*** Tying It All Together
+Maybe this should check first if there is only one anchor that is already
+active and coincides with the target. Clicking on an active anchor should
+be a no-op. But stronger assertions would be required: only one active anchor
+at any given time. But this is impossible due to side-effects on the javascript
+side, there is no guarantee that no one loads another script and messes around
+with the DOM.
+
+This can be done by checking whether there is exactly one active element, which
+is an anchor and equal to the event target. If not, call a ~resetAnchors~ function
+that does all the changes.
+
+Note that ~map~ doesn't apply functions properly to arrays. Anyway, 
+something like ~foldMap~ is more suitable here because this is about applying
+effects to the array, not about transforming it. 
+#+BEGIN_SRC purescript 
+resetActive :: Event -> Effect Unit
+resetActive evt = do
+  _ <- case currentTargetPNode evt of
+        Just pn -> querySelectorAll (QuerySelector "a.active") pn >>= toArray 
+                   >>= foldMap removeActiveAnchorN 
+        Nothing -> pure unit
+  case targetAnchor evt of
+    Just ank -> addActiveAnchor ank
+    Nothing -> pure unit
+#+END_SRC
+Another version of resetting activation, this time looping over the items of
+the node list.
+#+BEGIN_SRC purescript :tangle no
+
+resetActive :: Event -> Effect Unit
+resetActive evt = do
+  _ <- case currentTargetPNode evt of
+        Just pn -> do
+                    aa <- querySelectorAll (QuerySelector "a.active") pn
+                    NL.length aa >>= \l -> log $ "Removing active from " <> show l <>" nodes"
+                    nodeLoop removeActiveAnchorN aa
+        Nothing -> do 
+                    log "No active anchors"
+                    pure unit
+                    -- pure []
+  case targetAnchor evt of
+    Just ank -> addActiveAnchor ank
+    Nothing -> pure unit
+#+END_SRC
+
+Menu expansion handler to expand submenus. Maybe that's even better than
+activation.
+#+BEGIN_SRC purescript
+handleMenuExpansion :: Event -> Effect Unit
+handleMenuExpansion evt = do
+  case targetAnchor evt of
+    Just ank -> toggleExpanded ank
+    Nothing -> pure unit
+#+END_SRC
+*** Attaching the Handler
+This essentially runs a query selector on the document. Since this is not
+waiting for any document load event, it is imperative that the script be loaded
+when the DOM is ready, ie at the end of the body or with /defered/ set to 
+"defered".
+The document is obtained using ~window :: Effect Window~, 
+~document :: Window -> Effect HTMLDocument~, 
+~toParentNode::HTMLDocument -> ParentNode~ and
+~querySelector :: QuerySelector -> ParentNode -> Effect (Maybe Element)~
+Need a ~fromElement~ to get an HTMLElement from Element
+#+BEGIN_SRC purescript :tangle src/Main.purs
+module Main where
+
+import Prelude
+import Data.Maybe (Maybe(..))
+import Effect (Effect)
+
+import Web.Event.EventTarget (addEventListener, eventListener)
+import Web.HTML.Event.EventTypes (click)
+import Web.DOM.Element (Element, toEventTarget)
+import Web.DOM.ParentNode (QuerySelector(..), querySelector)
+import Web.HTML (window)
+import Web.HTML.HTMLDocument (toParentNode)
+import Web.HTML.Window (document)
+
+import Bindings (handleMenuExpansion, resetActive)
+
+main :: Effect Unit
+main = do
+ tocDivElt <- tocDiv
+ case tocDivElt of
+   Just elt -> do
+       -- el <- eventListener handleMenuExpansion
+       el <- eventListener resetActive
+       addEventListener click el false (toEventTarget elt)
+   Nothing -> pure unit
+
+tocDiv :: Effect (Maybe Element)
+tocDiv = (querySelector (QuerySelector "#text-table-of-contents") <<< toParentNode <=< document) =<< window
+#+END_SRC
+

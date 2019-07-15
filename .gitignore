@@ -1,0 +1,61 @@
+/bower_components/
+/node_modules/
+/.pulp-cache/
+/output/
+/generated-docs/
+/.psc-package/
+/.psc*
+/.purs*
+/.psa*
+_site
+# js-files are mostly generated
+*.js
+# except in src where they may define foreign functions
+!src/*.js
+
+experiments
+
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Org-mode
+.org-id-locations
+*_archive
+
+# flymake-mode
+*_flymake.*
+
+# eshell files
+/eshell/history
+/eshell/lastdir
+
+# elpa packages
+/elpa/
+
+# reftex files
+*.rel
+
+# AUCTeX auto folder
+/auto/
+
+# cask packages
+.cask/
+dist/
+
+# Flycheck
+flycheck_*.el
+
+# server auth directory
+/server/
+
+# projectiles files
+.projectile
+
+# directory configuration
+.dir-locals.el
