@@ -1,0 +1,3 @@
+[submodule "mkanta.github.io"]
+	path = mkanta.github.io
+	url = https://github.com/mkanta/mkanta.github.io.git
