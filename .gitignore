@@ -7,7 +7,10 @@
 /.psc*
 /.purs*
 /.psa*
-_site
+# html is generated from org
+*.html
+# and so is css
+*.css
 # js-files are mostly generated
 *.js
 # except in src where they may define foreign functions
