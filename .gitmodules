@@ -1,3 +1,3 @@
-[submodule "mkanta.github.io"]
-	path = mkanta.github.io
+[submodule "_site/mkanta.github.io"]
+	path = _site/mkanta.github.io
 	url = https://github.com/mkanta/mkanta.github.io.git
