@@ -1,0 +1,2 @@
+The org source files for the github website. Generate html and move the
+resulting html files into the submodule mkanta.github.io.
