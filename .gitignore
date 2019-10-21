@@ -17,6 +17,7 @@
 !src/*.js
 
 experiments
+*.zip
 
 *~
 \#*\#
