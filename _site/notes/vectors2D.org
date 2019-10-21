@@ -1,0 +1,115 @@
+* Vectors in the Plane
+Vectors are entities which have a direction in addition to a quantity. The
+quantity associated with a vector is its /length/. The description of its
+/direction/ depends on its ambient space. For vectors whose ambient space
+is a two-dimensional plane, the /direction/ is often given as an angle with
+respect to a fixed reference direction.
+** Representations
+There are two main representations for vectors in the plane, the representation
+in cartesian coordinates and the representation in terms of length and angle
+with respect to a reference direction. The latter is often called its /polar/
+representation.
+
+Whilst the polar representation is perhaps geometrically more intuitive, its
+major deficiency is the way it reacts to the addition of vectors, which usually
+involves heavy manipulations in trigonometry. By contrast, vectors in cartesian
+representation can be added by simply adding their components. Since vector
+addition is often required to solve physical problems, conversions between
+the two representations are often required, or, at least convenient.
+*** Cartesian Coordinates
+A vector in the plane can be described by a cartesian coordinate system. More
+precisely, the vector \(v=(v_1,v_2)\) is described by the point \(v_1,v_2\) it
+points to from the origin. Since \(v_1\) is the x-coordinate of this point,
+\begin{equation}
+v_1=l cos\alpha
+\end{equation}
+where \(l\) is the length of \(v\) and \(\alpha\) is the angle between \(v\) and
+the x-axis. In a similar vein
+\begin{equation}
+v_2=l sin\alpha.
+\end{equation}
+As for the length \(l\) of \(v\), a simple application of Pythagoras' theorem
+yields
+\begin{equation}
+l=\sqrt{v_1^2+v_2^2}.
+\end{equation}
+Note that the length of a vector \(v\) is usually denoted by \(\| v\|\) rather
+than \(l\).
+*** Polar Coordinates
+The polar coordinates \(v=(l,\alpha)\) of a vector \(v\) are simply its length
+\(l\) and its angle \(\alpha\) with respect to the x-axis of the coordinate
+system. The angle increases as the vector is rotated anti-clockwise about the
+origin and decreases when rotated in a clockwise direction. 
+
+Thus, if the x-axis is chosen to point east, angles north of east to west are 
+considered positive in the range of 0 to 180 degrees whereas angles south of 
+east are negative from 0 to -180 degrees. Due to the circular nature of angles,
+180 degrees north of east is the same as 180 degrees south of east, so an angle
+of 180 degrees in this context is the same as an angle of -180 degrees. 
+*** Conversions
+In all these examples and exercises assume the x-axis of the coordinate system i
+points due east and all vectors start at the origin unless noted otherwise.
+ 1) Find the cartesian representation of a vector pointing south of east at
+    \(30\degrees\) with a length of 10.
+    Answer: The angle is south of east, hence \(-30\degrees\) and the vector
+    in cartesian coordinates is 
+    \(v=10(\cos(-30),\sin(-30))=10(cos(30),-sin(30))= (8.66025403784\),-5.0)\).
+ 2) Find the length and angle of vector \(v=(-1,1)\).
+    Answer: The length of \(v\) is 
+    \(\|v\|=\sqrt(-1^2+1^2)=\sqrt(2)=\(1.41421356237\).
+    For the angle, \(\sqrt(2)*\cos(\alpha)=-1\), hence
+    \(\cos(\alpha)=\frac{-1}{\sqrt(2)}=-0.707106781188\) and
+    \(\alpha=\arccos(-0.707106781188)=135.0\).
+
+    Note that looking at the second coordinate leads to a discrepancy in
+    angles because  
+    \(\sin(\alpha)=\frac{1}{\sqrt(2)}=0.707106781188\) and
+    \(\alpha=\arcsin(0.707106781188)=45.0000000001\). This occurs because
+    \(\sin(45.0)=0.707106781187=\sin(135.0)\) so the /arcsin/ function
+    cannot distinguish between those angles. The proper handling of this
+    situation and why \(135\degrees\) is the right answer in this case
+    will be discussed below.
+ 3) Find the cartesian representation of a vector pointing north east at
+    angle \(60\degrees\) and with length \(5\).
+# The vspaces only make sense in latex, so put them in the proper environment
+    Answer: Your turn!\\\vspace{3in}
+ 4) Find the cartesian coordinates of a vector pointing north west at 
+    \(120\degrees\) and with length \(15\).
+ 5) Find the cartesian coordinates of a vector with angle \(300\degrees\)
+    and length \(25\).
+    Answer:\\\vspace{3in}
+*** Angle Selection
+Due to the periodic nature of the trigonometric functions, their inverses can
+not distinguish between angles where they assume the same values. Thus, when
+converting a vector from cartesian to polar, the proper angle has to be
+selected. This selection is made based on the /quadrant/ the vector is in.
+There are four quadrants.
+ - Quadrant I :: This is the north-east of the coordinate system. Vectors
+   in this quadrant have components that are both positive. When calculating
+   angles with the inverse trigonometric functions for these vectors, the
+   angle between \(0\degrees\) and \(90\degrees\) is chosen.
+ - Quadrant II :: The north-west section of the coordinate system. Vectors
+   here have negative \(x\) components and \(y\) components are still positive.
+   Their angles are between \(90\degrees\) and \(180\degrees\).
+ - Quadrant III :: The south-west. Vectors pointing into this section have
+   components that are both negative. Here, angles are between \(180\degrees\)
+   and \(270\degrees\).
+ - Quadrant IV :: The south-east. Here, the \(y\) components are negative
+   whilst the \(x\) components are positive. Angles are between \(270\degrees\)
+   and \(360\degrees\).
+In example 2) above, the \(x\) component is negative whereas the \(y\) component
+is positive. Thus, the vector is in quadrant II and an angle between 
+\(90\degrees\) and \(180\degrees\) should be chosen that satisfies the
+formulas. This is the angle of \(135\degrees\) obtained from the \(x\) 
+component.
+ 1) Convert \(v=(1,1)\): The length is \(\|v\|=\sqrt(2)\), resulting in
+    \(\cos(\alpha)=\frac{1}{\sqrt{2}}\) and a possible angle of 
+    \(\alpha=\arccos(\frac{1}{\sqrt{2}})=44.9999999999\). The corresponding
+    calculation using the second component yields the same result. The vector
+    points into quadrant I so the value of \(45\degrees\) is acceptable.
+ 2) Convert \(v=(-1,-1)\): Again, the length is \(\|v\|=\frac{1}{\sqrt(2)}\).
+    From the first component,
+    \(\alpha=\arccos(\frac{-1}{\sqrt{2}})=135.0\). Using the second component,
+    \(\alpha=\arcsin(\frac{-1}{\sqrt{2}})=\(-45.0000000001\). There is a problem
+    here because \(v\) points into quadrant III and the angle should be
+    between \(180\degrees\) and \(270\degrees\).
