@@ -16,6 +16,9 @@ software projects. Due to the inevitable mission creep affecting software
 projects, codebases become larger than they should be and a lot messier.
 Functional techniques reinject a dose of sanity into this kind of situation by
 providing a clearer logical structure derived from λ-calculus.
+Smaller code snippets make refactoring easier
+If typed λ-calculus is used compiler will detect most refactoring errors.
+Do more work in less time.
 Psychological
 Possible Paradigm Change: Quantum Computing
 * How
@@ -64,5 +67,7 @@ https://github.com/pveber/ocaml-r
 https://bluemountaincapital.github.io/FSharpRProvider/
 ** HaskellR
 A topic for another day.
+** PureR?
+An R backend to PureScript, maybe one day.
 * Caveats
 Efficiency: tail-end recursion, lazy evaluation
