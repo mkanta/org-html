@@ -1,34 +1,49 @@
-# +HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/leftmenu.css">
 # +HTML_HEAD: <script src="js/org-bindings.js" defer="defer"></script>
 #+TITLE: Functional Programming Techniques in R
 # +HTML_DOCTYPE: html5
 # +HTML_CONTAINER: section
 # Path to script, this refers to org-info.js in the current directory
-# +INFOJS_OPT: path:org-info.js
+#+INFOJS_OPT: path:../js/org-info.js
 # don't show toc, but local table of contents, 
-#+INFOJS_OPT: toc:nil ltoc:t view:info mouse:underline buttons:nil 
-#+INFOJS_OPT: up:index.html#toc
+#+INFOJS_OPT: toc:nil ltoc:above view:info mouse:underline buttons:nil 
+# +INFOJS_OPT: up:index.html#toc
+#+INFOJS_OPT: up: ""
 #+INFOJS_OPT: home:https://mkanta.github.io
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/stylesheet.css">
 * Why
-Functional programming yields code with better structure. This is important for
-a language like R, which isn't really designed to be a language for large 
-software projects. Due to the inevitable mission creep affecting software
-projects, codebases become larger than they should be and a lot messier.
-Functional techniques reinject a dose of sanity into this kind of situation by
-providing a clearer logical structure derived from λ-calculus.
-Smaller code snippets make refactoring easier
-If typed λ-calculus is used compiler will detect most refactoring errors.
-Do more work in less time.
-Psychological
-Possible Paradigm Change: Quantum Computing
-* How
-The essence of functional programming consists of combining short code snippets
-using functors. Functors are functions that accept functions as arguments and
-apply them to some data-structure or construct new functions from its arguments.
+Functional programming yields code with a better logical structure. It allows to
+express intent more explicitly and succinctly than imperative programming where
+code is often cluttered with resource management, most notably memory management
+by way of variables. It addresses:
+ - Mission Creep :: Many languages are nowadays used for purposes they weren't
+   originally designed for. (R, Javascript, Python)
+ - Code Management Issues :: Code changes, refactoring, code extension. 
+   Programmers don't like to comment or read documentation. Functional code 
+   is often more self-explanatory. 
 
-In addition to simplifying code re-use, this also allows the replacement of 
-obscure loop constructions by functional application of code snippets to
-sequences.
+   If typed  functional programming is used compiler will 
+   detect most refactoring errors, but smaller self-contained code snippets
+   make things easier even in the absence of static typing. 
+
+   Do more work in less time.
+
+   Examples: Emacs, Maxima, both huge codebases in LISP, well and alive since 
+   the 1970's where other projects have failed.
+ - Psychology :: Programming languages affect the thinking of the programmer.
+   Since functional programming is deeply rooted in logic, the expectation
+   is that the thinking of its users will be more precise. 
+ - Possible Paradigm Change :: Quantum Computing
+   No more access to memory during computation, imperative code needs to
+   be rewritten for sure.
+ - Parallelism :: Perhaps not an issue for R.
+* How
+ - Combine short code snippets, called \lambda expressions, using functors. 
+   Functors are functions that accept functions as arguments and apply them to 
+   some data-structure or construct new functions from its arguments.
+ - Replace most loops by easily recognizable iteration constructs where one or
+   more of these code snippet is applied to a list
+ - Use recursion for ore obscure iterations not matching any of the iteration
+   archetypes.
  
 Examples: Lisp and Lisp-like dialects, ML and dialects (SML, Ocaml), Haskell.
 * Hallmarks of a Functional Language
@@ -41,8 +56,19 @@ Examples: Lisp and Lisp-like dialects, ML and dialects (SML, Ocaml), Haskell.
      construction are regular data-types, so they can be assigned to a
      variable to have a reference for later use, they can be handed as
      arguments to other functions or returned from functions.
- - Functions can be easily Curried :: A generalization of default arguments.
-     (TODO: not quite, default arguments can be overridden)
+ - Easy Currying :: New functions are obtained from partial
+     evaluations. A Haskell example:
+#+BEGIN_SRC haskell
+(+)::Num a=>a->a->a
+#+END_SRC
+     This is right associative, ie ~a->a->a~ means ~a->(a->a)~, which
+     implies that this is a function of one argument of type ~a~ returning
+     a function ~a->a~.
+     As a consequence, the ~inc~ function can be obtained by currying:
+#+BEGIN_SRC haskell
+ inc :: Num a => a -> a
+ inc = (+) 1
+#+END_SRC
      All functions are considered to have arity 1: They take one argument and 
      return another function. Thus, new functions can be created from existing 
      ones by a process reminiscent of partial evaluation. This process is 
@@ -51,14 +77,49 @@ Examples: Lisp and Lisp-like dialects, ML and dialects (SML, Ocaml), Haskell.
 Functional languages go a step further than just removing the insidious /goto/ 
 statement, they remove all loops and replace them by a few easily recognizable
 repeat-patterns.
- - Mapping :: some example
- - Filtering :: 
- - Folding :: some more
- - Zipping :: 
-Everything that doesn't fit one of these patterns can be handled by recursion.
-* How to do it in R
+ - Mapping :: Runs code on a list and returns a list of results.
+#+BEGIN_SRC haskell
+map ((0) -) [1..5] -- change signs of list elements
+#+END_SRC
+ - Filtering :: Runs a boolean expression on a list and returns a list of
+                elements satisfying the condition
+#+BEGIN_SRC haskell
+filter (< 0) [-5..5] -- get sublist of negative elements
+#+END_SRC
+ - Folding :: Runs code on an initial value and a list and returns a value
+              accumulated by the code.
+#+BEGIN_SRC haskell
+foldl (*) 1 [1..5]   -- factorial 5!
+#+END_SRC
+ - Zipping :: Runs code on two lists to combine them into one list. There
+              are usually variations of that for handling more than two
+              lists at the time.
+#+BEGIN_SRC haskell
+zipWith (+) [1..5] [1..5]  -- adds lists componentwise
+#+END_SRC
+Everything that doesn't fit simple combinations of these patterns can be 
+handled by recursion.
+* How About R
+ Designed for flexibility on the command line. This often turns into a nightmare
+ in terms of software architecture. Some problems:
+ - Mixing positional and named parameters
+ - S3 object system
 ** Native Tools
- - Currying :: In the simplest case this can be done using default arguments.
+ The scripting in R is based on Scheme, a dialect of Lisp, with a number of
+ flexibility decisions for ease of use on the command line. So this is
+ inherently functional with a number of caveats.
+ - Currying :: Surprisingly easy but somewhat hampered by parentheses.
+#+BEGIN_SRC R
+add <- function(x) function(y) x+y;
+add(2)(3);
+inc <- add(1);
+inc(5);
+#+END_SRC
+ - Loop Removal :: Quite Good but a bit non-standard. Mapping functions
+   are implemented as ~apply~ functions such as ~lapply~, ~vapply~ and
+   ~apply~ proper, but also see ~Map~ from ~funprog~ in base package.
+   Folding is implemented as ~Reduce~ in the same package, which also
+   provides ~Filter~.
 ** Additional Libraries (functional, purrr)
 https://github.com/rstudio/cheatsheets/blob/master/purrr.pdf
 ** OCAML
