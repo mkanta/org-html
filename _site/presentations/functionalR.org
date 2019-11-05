@@ -98,16 +98,41 @@ foldl (*) 1 [1..5]   -- factorial 5!
 zipWith (+) [1..5] [1..5]  -- adds lists componentwise
 #+END_SRC
 Everything that doesn't fit simple combinations of these patterns can be 
-handled by recursion.
+handled by explicit recursion.
 * How About R
- Designed for flexibility on the command line. This often turns into a nightmare
- in terms of software architecture. Some problems:
- - Mixing positional and named parameters
- - S3 object system
+ - Based on Scheme, a Lisp dialect, inherently functional.
+ - Designed for flexibility on the command line. This often turns into a 
+   nightmare in terms of software architecture. Some problems:
+   - Mixing positional and named parameters in functions.
+   - S3 object system is very flexible.
 ** Native Tools
- The scripting in R is based on Scheme, a dialect of Lisp, with a number of
- flexibility decisions for ease of use on the command line. So this is
- inherently functional with a number of caveats.
+ - Function as Datatypes :: This comes very natural in R and is used most
+   notably in functions like ~optimise~. A common procedure to perform a 
+   maximum likelihood estimation:
+   #+BEGIN_SRC R
+   poisson_nll <- function(x) {
+      n <- length(x)
+      sum_x <- sum(x)
+      function(lambda) {
+         n*lambda-sum_x*log(lambda)
+      }
+   }
+   #+END_SRC
+   This can be fed into the ~optimise~ function:
+   #+BEGIN_SRC R
+   optimise(poisson_nll,c(0:100))
+   #+END_SRC
+   This uses currying, making the procedure more efficient. The natural 
+   temptation would be to define something like
+   #+BEGIN_SRC R
+   poisson_nll<-function(param,data) length(data)*param-sum(data)*log(param)
+   #+END_SRC
+   and then to pass the data argument through the ~optimise~ function:
+   #+BEGIN_SRC R
+   optimise(poisson_nll,c(0:100),data=x)
+   #+END_SRC
+   but this would have to recalculate the length of the data vector and
+   the sum of the data multiple times during the optimisation process.
  - Currying :: Surprisingly easy but somewhat hampered by parentheses.
 #+BEGIN_SRC R
 add <- function(x) function(y) x+y;
@@ -115,11 +140,31 @@ add(2)(3);
 inc <- add(1);
 inc(5);
 #+END_SRC
- - Loop Removal :: Quite Good but a bit non-standard. Mapping functions
+ - Loop Removal :: Quite good but a bit non-standard. Mapping functions
    are implemented as ~apply~ functions such as ~lapply~, ~vapply~ and
    ~apply~ proper, but also see ~Map~ from ~funprog~ in base package.
    Folding is implemented as ~Reduce~ in the same package, which also
    provides ~Filter~.
+   - Mapping :: Almost the same as above, at least on vectors. Based on
+     ~mapply~.
+     #+BEGIN_SRC R
+     Map(function(x) -x,c(1:5)); #change signs
+     #+END_SRC
+   - Filtering :: Dito
+     #+BEGIN_SRC R
+     Filter(function(x) x < 0, c(-5:5)); # vector of negative values
+     #+END_SRC
+   - Folding :: This is called ~Reduce~
+     #+BEGIN_SRC R
+     Reduce(function(x,y) x*y, c(1:5),1); #factorial
+     #+END_SRC
+   - Zipping :: This can actually flexibly be done with ~Map~.
+     #+BEGIN_SRC R
+     Map(function(x,y) x+y,c(1:5),c(1:5))
+     #+END_SRC or simply
+     #+BEGIN_SRC R
+     Map(`+`,c(1:5),c(1:5))
+     #+END_SRC
 ** Additional Libraries (functional, purrr)
 https://github.com/rstudio/cheatsheets/blob/master/purrr.pdf
 ** OCAML
