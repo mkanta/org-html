@@ -14,7 +14,11 @@
 Functional programming yields code with a better logical structure. It allows to
 express intent more explicitly and succinctly than imperative programming where
 code is often cluttered with resource management, most notably memory management
-by way of variables. It addresses:
+by way of variables. 
+#+BEGIN_SRC haskell
+foldl (*) 1 $ take 5 $ filter odd [1..]
+#+END_SRC
+It addresses:
  - Mission Creep :: Many languages are nowadays used for purposes they weren't
    originally designed for. (R, Javascript, Python)
  - Code Management Issues :: Code changes, refactoring, code extension. 
@@ -37,6 +41,11 @@ by way of variables. It addresses:
    be rewritten for sure.
  - Parallelism :: Perhaps not an issue for R.
 * Main Techniques
+#+BEGIN_SRC haskell
+divisible_by n x= mod x n == 0
+odd = not . divisible_by 2
+foldl (*) 1 $ take 5 $ filter odd [1..]
+#+END_SRC
  - Combine short code snippets, called \lambda expressions, using functors. 
    Functors are functions that accept functions as arguments and apply them to 
    some data-structure or construct new functions from its arguments.
@@ -147,10 +156,6 @@ handled by explicit recursion.
    and leads to messy interfaces, especially when something other than
    the Poisson likelihood needs to be used, ie a uniform distribution
    on positive data where the sum of the data is not a sufficient statistic.
-   Or a distribution with more than one parameter using something like
-   #+BEGIN_SRC R
-   optim(30,logli.poisson(x1), control=list("fnscale"=-1))
-   #+END_SRC
  - Currying :: Surprisingly easy but somewhat hampered by parentheses.
    See maximum likelihood example.
    #+BEGIN_SRC R
@@ -205,5 +210,8 @@ javascript code. Now there are backends for
  - C++, Go: purescript-native
  An R backend to PureScript seems certainly possible and would be the ideal
  solution, so if someone could be found with the necessary resources...
-* Caveats
+* Concerns
 Efficiency: tail-end recursion, lazy evaluation
+#+BEGIN_SRC haskell
+foldl (*) 1 $ take 5 $ filter odd [1..]
+#+END_SRC
