@@ -36,7 +36,7 @@ by way of variables. It addresses:
    No more access to memory during computation, imperative code needs to
    be rewritten for sure.
  - Parallelism :: Perhaps not an issue for R.
-* How
+* Main Techniques
  - Combine short code snippets, called \lambda expressions, using functors. 
    Functors are functions that accept functions as arguments and apply them to 
    some data-structure or construct new functions from its arguments.
@@ -46,7 +46,7 @@ by way of variables. It addresses:
    archetypes.
  
 Examples: Lisp and Lisp-like dialects, ML and dialects (SML, Ocaml), Haskell.
-* Hallmarks of a Functional Language
+* Details of Functional Techniques
 ** Simple Function Manipulation
  - Simple Function Construction :: All functional languages provide a 
      constructor for function allowing to create new functions on the fly.
@@ -56,6 +56,8 @@ Examples: Lisp and Lisp-like dialects, ML and dialects (SML, Ocaml), Haskell.
      construction are regular data-types, so they can be assigned to a
      variable to have a reference for later use, they can be handed as
      arguments to other functions or returned from functions.
+ - Combining Code Snippets :: Function composition, tensoring et al, very
+     lanuage dependent.
  - Easy Currying :: New functions are obtained from partial
      evaluations. A Haskell example:
 #+BEGIN_SRC haskell
@@ -106,40 +108,57 @@ handled by explicit recursion.
    - Mixing positional and named parameters in functions.
    - S3 object system is very flexible.
 ** Native Tools
- - Function as Datatypes :: This comes very natural in R and is used most
+ - Functions as Datatypes :: This comes very natural in R and is used most
    notably in functions like ~optimise~. A common procedure to perform a 
    maximum likelihood estimation:
    #+BEGIN_SRC R
-   poisson_nll <- function(x) {
-      n <- length(x)
-      sum_x <- sum(x)
-      function(lambda) {
-         n*lambda-sum_x*log(lambda)
-      }
+   logli.poisson <- function(data) {
+      ld <- length(data)
+      sd <- sum(data)
+      function(param) sd*log(param)-ld*param
    }
    #+END_SRC
    This can be fed into the ~optimise~ function:
    #+BEGIN_SRC R
-   optimise(poisson_nll,c(0:100))
+   optimise(logli.poisson,c(0:100),maximum=TRUE)
    #+END_SRC
-   This uses currying, making the procedure more efficient. The natural 
-   temptation would be to define something like
+   This uses currying, making the procedure more efficient. Without currying 
+   the temptation would be to define something like
    #+BEGIN_SRC R
-   poisson_nll<-function(param,data) length(data)*param-sum(data)*log(param)
+   loglimp.poisson<-function(param,data) sum(data)*log(param)-length(data)*param
    #+END_SRC
-   and then to pass the data argument through the ~optimise~ function:
+   and then to pass the data argument through to the ~optimise~ function:
    #+BEGIN_SRC R
-   optimise(poisson_nll,c(0:100),data=x)
+   optimise(loglimp.poisson,c(0:100),data=x,maximum=TRUE)
    #+END_SRC
    but this would have to recalculate the length of the data vector and
    the sum of the data multiple times during the optimisation process.
+   Of course the unnecessary recomputations can be optimised away doing
+   something like: 
+   #+BEGIN_SRC R
+   loglimpx.poisson <- function(param,datasum,datalength){
+                          datasum*log(param)-datalength*param
+                       }
+   #+END_SRC
+   and passing the data sum and length through as extra arguments
+   to ~optimise~. 
+
+   This is a case where the flexibility becomes a curse
+   and leads to messy interfaces, especially when something other than
+   the Poisson likelihood needs to be used, ie a uniform distribution
+   on positive data where the sum of the data is not a sufficient statistic.
+   Or a distribution with more than one parameter using something like
+   #+BEGIN_SRC R
+   optim(30,logli.poisson(x1), control=list("fnscale"=-1))
+   #+END_SRC
  - Currying :: Surprisingly easy but somewhat hampered by parentheses.
-#+BEGIN_SRC R
-add <- function(x) function(y) x+y;
-add(2)(3);
-inc <- add(1);
-inc(5);
-#+END_SRC
+   See maximum likelihood example.
+   #+BEGIN_SRC R
+   add <- function(x) function(y) x+y;
+   add(2)(3);
+   inc <- add(1);
+   inc(5);
+   #+END_SRC
  - Loop Removal :: Quite good but a bit non-standard. Mapping functions
    are implemented as ~apply~ functions such as ~lapply~, ~vapply~ and
    ~apply~ proper, but also see ~Map~ from ~funprog~ in base package.
@@ -166,14 +185,25 @@ inc(5);
      Map(`+`,c(1:5),c(1:5))
      #+END_SRC
 ** Additional Libraries (functional, purrr)
-https://github.com/rstudio/cheatsheets/blob/master/purrr.pdf
-** OCAML
-https://github.com/pveber/ocaml-r
-** F#
-https://bluemountaincapital.github.io/FSharpRProvider/
-** HaskellR
-A topic for another day.
-** PureR?
-An R backend to PureScript, maybe one day.
+Whilst everything is there, some things need some massaging. This is where
+additional packages like ~functional~ or ~purrr~ come in. They provide 
+  - function composition with ~Compose~ or ~compose~, respectively
+  - currying with ~Curry~ or ~partial~, respectively
+  - ~purrr~ also reimplements the loop functions
+** External Bindings to Functional Programming Languages
+*** OCAML
+    https://github.com/pveber/ocaml-r
+*** F#
+    https://bluemountaincapital.github.io/FSharpRProvider/
+*** HaskellR
+    A topic for another day.
+*** PureR?
+Purescript is a Haskell-style language originally created to generate 
+javascript code. Now there are backends for
+ - C: called pureC
+ - Erlang: purerl
+ - C++, Go: purescript-native
+ An R backend to PureScript seems certainly possible and would be the ideal
+ solution, so if someone could be found with the necessary resources...
 * Caveats
 Efficiency: tail-end recursion, lazy evaluation
