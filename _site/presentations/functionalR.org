@@ -46,14 +46,15 @@ divisible_by n x = mod x n == 0
 odd = not . divisible_by 2
 foldl (*) 1 $ take 5 $ filter odd [1..]
 #+END_SRC
- - Combine short code snippets, called \lambda expressions, using functors. 
+ - Combine short code snippets, sometimes unnamed, called \lambda expressions, 
+   using functors. 
    Functors are functions that accept functions as arguments and apply them to 
    some data-structure or construct new functions from its arguments.
  - Replace most loops by easily recognizable iteration constructs where one or
-   more of these code snippet is applied to a list
+   more of these code snippet is applied to a list.
  - Use recursion for ore obscure iterations not matching any of the iteration
    archetypes.
- 
+
 Examples: Lisp and Lisp-like dialects, ML and dialects (SML, Ocaml), Haskell.
 * Details of Functional Techniques
 ** Simple Function Manipulation
@@ -72,12 +73,14 @@ Examples: Lisp and Lisp-like dialects, ML and dialects (SML, Ocaml), Haskell.
 #+BEGIN_SRC haskell
 divisible_by :: Integral a => a -> a -> Bool
 #+END_SRC
-     This is right associative, ie ~a->a->a~ means ~a->(a->a)~, which
+     This is right associative, ie ~a->a->Bool~ means ~a->(a->Bool)~, which
      implies that this is a function of one argument of type ~a~ returning
-     a function ~a->a~.
-     As a consequence, the ~inc~ function can be obtained by currying:
+     a function ~a->Bool~.
+     As a consequence, the ~odd~ function can be obtained by currying:
 #+BEGIN_SRC haskell
 divisible_by n x = mod x n == 0
+even = divisible_by 2
+odd = not . divisible_by 2
 #+END_SRC
      All functions are considered to have arity 1: They take one argument and 
      return another function. Thus, new functions can be created from existing 
@@ -94,7 +97,7 @@ map ((0) -) [1..5] -- change signs of list elements
  - Filtering :: Runs a boolean expression on a list and returns a list of
                 elements satisfying the condition
 #+BEGIN_SRC haskell
-filter (< 0) [-5..5] -- get sublist of negative elements
+filter (divisible_by 2) [1..5] -- get sublist of even elements
 #+END_SRC
  - Folding :: Runs code on an initial value and a list and returns a value
               accumulated by the code.
@@ -116,7 +119,8 @@ handled by explicit recursion.
    - Mixing positional and named parameters in functions.
    - S3 object system is very flexible.
 ** Native Tools
- - Functions as Datatypes :: This comes very natural in R and is used most
+*** Functions as Datatypes 
+   This comes very natural in R and is used most
    notably in functions like ~optimise~. A common procedure to perform a 
    maximum likelihood estimation:
    #+BEGIN_SRC R
@@ -128,7 +132,7 @@ handled by explicit recursion.
    #+END_SRC
    This can be fed into the ~optimise~ function:
    #+BEGIN_SRC R
-   optimise(logli.poisson,c(0:100),maximum=TRUE)
+   optimise(logli.poisson(x),c(0:100),maximum=TRUE)
    #+END_SRC
    This uses currying, resulting in efficient code and an extensible interface. 
    Without currying the temptation would be to define something like
@@ -155,7 +159,8 @@ handled by explicit recursion.
    and leads to messy interfaces, especially when something other than
    the Poisson likelihood needs to be used, ie a uniform distribution
    on positive data where the sum of the data is not a sufficient statistic.
- - Currying :: Surprisingly easy but somewhat hampered by parentheses.
+*** Currying
+   Surprisingly easy but somewhat hampered by parentheses.
    See maximum likelihood example.
    #+BEGIN_SRC R
    divisible_by <- function(n) function(x) x%%n == 0
@@ -163,7 +168,8 @@ handled by explicit recursion.
    FALSE
    even <- divisible_by(2)
    #+END_SRC
- - Loop Removal :: Quite good but a bit non-standard. Mapping functions
+*** Loop Removal 
+   Quite good but a bit non-standard. Mapping functions
    are implemented as ~apply~ functions such as ~lapply~, ~vapply~ and
    ~apply~ proper, but also see ~Map~ from ~funprog~ in base package.
    Folding is implemented as ~Reduce~ in the same package, which also
@@ -184,7 +190,7 @@ handled by explicit recursion.
    - Zipping :: This can actually flexibly be done with ~Map~.
      #+BEGIN_SRC R
      Map(function(x,y) x+y,c(1:5),c(1:5))
-     #+END_SRC i
+     #+END_SRC 
      or simply
      #+BEGIN_SRC R
      Map(`+`,c(1:5),c(1:5))
@@ -206,6 +212,8 @@ additional packages like ~functional~ or ~purrr~ come in. They provide
 *** F#
     https://bluemountaincapital.github.io/FSharpRProvider/
 *** HaskellR
+    https://tweag.github.io/HaskellR/    
+ 
     A topic for another day.
 *** PureR?
 Purescript is a Haskell-style language originally created to generate 
