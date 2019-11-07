@@ -22,7 +22,7 @@ Or do #+PROPERTY: header-args :tangle "~/file/path"
 # and NodeList has side-effects that prevent the setting of eg. class names
 # on the corresponding elements. Can remove the experimental code, see the
 # resetActive function for the differences. Put the css-code into this file
-# as well and tangle it out to
+# as well and tangle it out, too
 
 Functions to bind to the nav-menu to get some functionality. There are two
 functions currently:

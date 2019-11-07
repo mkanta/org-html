@@ -2,7 +2,7 @@
 #+HTML_DOCTYPE: html5
 #+HTML_CONTAINER: section
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/topmenu.css">
-#+HTML_HEAD: <script src="js/org-bindings.js" defer="defer"></script>
+#+HTML_HEAD: <script src="js/bindings.js" defer="defer"></script>
 * Home
   :PROPERTIES:
   :UNNUMBERED: t

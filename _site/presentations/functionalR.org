@@ -42,7 +42,7 @@ It addresses:
  - Parallelism :: Perhaps not an issue for R.
 * Main Techniques
 #+BEGIN_SRC haskell
-divisible_by n x= mod x n == 0
+divisible_by n x = mod x n == 0
 odd = not . divisible_by 2
 foldl (*) 1 $ take 5 $ filter odd [1..]
 #+END_SRC
@@ -70,15 +70,14 @@ Examples: Lisp and Lisp-like dialects, ML and dialects (SML, Ocaml), Haskell.
  - Easy Currying :: New functions are obtained from partial
      evaluations. A Haskell example:
 #+BEGIN_SRC haskell
-(+)::Num a=>a->a->a
+divisible_by :: Integral a => a -> a -> Bool
 #+END_SRC
      This is right associative, ie ~a->a->a~ means ~a->(a->a)~, which
      implies that this is a function of one argument of type ~a~ returning
      a function ~a->a~.
      As a consequence, the ~inc~ function can be obtained by currying:
 #+BEGIN_SRC haskell
- inc :: Num a => a -> a
- inc = (+) 1
+divisible_by n x = mod x n == 0
 #+END_SRC
      All functions are considered to have arity 1: They take one argument and 
      return another function. Thus, new functions can be created from existing 
@@ -131,12 +130,12 @@ handled by explicit recursion.
    #+BEGIN_SRC R
    optimise(logli.poisson,c(0:100),maximum=TRUE)
    #+END_SRC
-   This uses currying, making the procedure more efficient. Without currying 
-   the temptation would be to define something like
+   This uses currying, resulting in efficient code and an extensible interface. 
+   Without currying the temptation would be to define something like
    #+BEGIN_SRC R
    loglimp.poisson<-function(param,data) sum(data)*log(param)-length(data)*param
    #+END_SRC
-   and then to pass the data argument through to the ~optimise~ function:
+   and then to pass the data argument through the ~optimise~ function:
    #+BEGIN_SRC R
    optimise(loglimp.poisson,c(0:100),data=x,maximum=TRUE)
    #+END_SRC
@@ -159,10 +158,10 @@ handled by explicit recursion.
  - Currying :: Surprisingly easy but somewhat hampered by parentheses.
    See maximum likelihood example.
    #+BEGIN_SRC R
-   add <- function(x) function(y) x+y;
-   add(2)(3);
-   inc <- add(1);
-   inc(5);
+   divisible_by <- function(n) function(x) x%%n == 0
+   divisible_by(2)(3)
+   FALSE
+   even <- divisible_by(2)
    #+END_SRC
  - Loop Removal :: Quite good but a bit non-standard. Mapping functions
    are implemented as ~apply~ functions such as ~lapply~, ~vapply~ and
@@ -176,7 +175,7 @@ handled by explicit recursion.
      #+END_SRC
    - Filtering :: Dito
      #+BEGIN_SRC R
-     Filter(function(x) x < 0, c(-5:5)); # vector of negative values
+     Filter(divisible_by(2), c(1:5)); # vector of even values
      #+END_SRC
    - Folding :: This is called ~Reduce~
      #+BEGIN_SRC R
@@ -185,10 +184,16 @@ handled by explicit recursion.
    - Zipping :: This can actually flexibly be done with ~Map~.
      #+BEGIN_SRC R
      Map(function(x,y) x+y,c(1:5),c(1:5))
-     #+END_SRC or simply
+     #+END_SRC i
+     or simply
      #+BEGIN_SRC R
      Map(`+`,c(1:5),c(1:5))
+     #+END_SRC 
+     or even simpler
+     #+BEGIN_SRC R
+     c(1:5) + c(1:5)
      #+END_SRC
+     since R is a data processing language.
 ** Additional Libraries (functional, purrr)
 Whilst everything is there, some things need some massaging. This is where
 additional packages like ~functional~ or ~purrr~ come in. They provide 
