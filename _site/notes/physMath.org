@@ -1,3 +1,4 @@
+* Equations
 * Vectors in the Plane
 Vectors are entities which have a direction in addition to a quantity. The
 quantity associated with a vector is its /length/. The description of its

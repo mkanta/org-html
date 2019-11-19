@@ -1,0 +1,18 @@
+#+TITLE: Presentations
+#+HTML_DOCTYPE: html5
+#+HTML_CONTAINER: section
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/orgmenu.css">
+# +HTML_HEAD: <script src="js/bindings.js" defer="defer"></script>
+#+OPTIONS: html5-fancy:t
+Past and future presentations.
+* Functional Programming Techniques in R
+  :PROPERTIES:
+  :UNNUMBERED: t
+  :END:
+This presentation is about functional programming concepts, how they differ 
+from imperial programming and why they are important, followed by a discussion 
+of language features in R that facilitate the use of functional techniques as 
+well as some deficiencies.
+
+Some functional alternatives to using R are discussed.
+[[./functionalR.org][more...]]
