@@ -73,12 +73,13 @@ points due east and all vectors start at the origin unless noted otherwise.
  3) Find the cartesian representation of a vector pointing north east at
     angle \(60\degrees\) and with length \(5\).
 # The vspaces only make sense in latex, so put them in the proper environment
-    Answer: Your turn!\\\vspace{3in}
+    Answer: Your turn!
+#+ATTR_LATEX :height 3in
  4) Find the cartesian coordinates of a vector pointing north west at 
     \(120\degrees\) and with length \(15\).
  5) Find the cartesian coordinates of a vector with angle \(300\degrees\)
     and length \(25\).
-    Answer:\\\vspace{3in}
+#+ATTR_LATEX :height 3in
 *** Angle Selection
 Due to the periodic nature of the trigonometric functions, their inverses can
 not distinguish between angles where they assume the same values. Thus, when
