@@ -1,4 +1,22 @@
 * Equations
+Solving equations involves clearing denominators, expanding terms to remove
+parentheses and combining the terms that contain the variable to solve for and 
+those that don't. These two types of terms are then assembled at opposite sides
+of the equality sign and the further treatment of the equation depends on its
+kind. 
+
+As an example, consider \[4(x-3)+2=15-5(x+6).\] Expanding the left hand side
+of the equation leads to  
+\[4\,x-12+2=15-5(x+6)\] and doing the same on the right results in
+\[4\,x-12+2=15-5\,x-30.\] Now the constant terms on either side can be combined
+to get
+\[4\,x-10=-5\,x-15.\]
+Adding $5x$ to both sides of the equation removes the term $-5x$ from the right
+hand side 
+\[9\,x-10=-15\]
+and adding $10$ will remove the constant from the left hand side, so that
+\[9\,x=-5.\] Finally, dividing both sides by $9$ gives the result
+\[x=-{\frac{5}{9}}.\]
 * Vectors in the Plane
 Vectors are entities which have a direction in addition to a quantity. The
 quantity associated with a vector is its /length/. The description of its
@@ -22,12 +40,12 @@ A vector in the plane can be described by a cartesian coordinate system. More
 precisely, the vector \(v=(v_1,v_2)\) is described by the point \(v_1,v_2\) it
 points to from the origin. Since \(v_1\) is the x-coordinate of this point,
 \begin{equation}
-v_1=l cos\alpha
+v_1=l \cos\alpha
 \end{equation}
 where \(l\) is the length of \(v\) and \(\alpha\) is the angle between \(v\) and
 the x-axis. In a similar vein
 \begin{equation}
-v_2=l sin\alpha.
+v_2=l \sin\alpha.
 \end{equation}
 As for the length \(l\) of \(v\), a simple application of Pythagoras' theorem
 yields
@@ -51,13 +69,13 @@ of 180 degrees in this context is the same as an angle of -180 degrees.
 In all these examples and exercises assume the x-axis of the coordinate system i
 points due east and all vectors start at the origin unless noted otherwise.
  1) Find the cartesian representation of a vector pointing south of east at
-    \(30\degrees\) with a length of 10.
-    Answer: The angle is south of east, hence \(-30\degrees\) and the vector
+    \(30^\circ\) with a length of 10.
+    Answer: The angle is south of east, hence \(-30^\circ\) and the vector
     in cartesian coordinates is 
     \(v=10(\cos(-30),\sin(-30))=10(cos(30),-sin(30))= (8.66025403784\),-5.0)\).
  2) Find the length and angle of vector \(v=(-1,1)\).
     Answer: The length of \(v\) is 
-    \(\|v\|=\sqrt(-1^2+1^2)=\sqrt(2)=\(1.41421356237\).
+    \(\|v\|=\sqrt(-1^2+1^2)=\sqrt(2)=1.41421356237\).
     For the angle, \(\sqrt(2)*\cos(\alpha)=-1\), hence
     \(\cos(\alpha)=\frac{-1}{\sqrt(2)}=-0.707106781188\) and
     \(\alpha=\arccos(-0.707106781188)=135.0\).
@@ -68,18 +86,18 @@ points due east and all vectors start at the origin unless noted otherwise.
     \(\alpha=\arcsin(0.707106781188)=45.0000000001\). This occurs because
     \(\sin(45.0)=0.707106781187=\sin(135.0)\) so the /arcsin/ function
     cannot distinguish between those angles. The proper handling of this
-    situation and why \(135\degrees\) is the right answer in this case
+    situation and why \(135^\circ\) is the right answer in this case
     will be discussed below.
  3) Find the cartesian representation of a vector pointing north east at
-    angle \(60\degrees\) and with length \(5\).
+    angle \(60^\circ\) and with length \(5\).
 # The vspaces only make sense in latex, so put them in the proper environment
     Answer: Your turn!
-#+ATTR_LATEX :height 3in
+#+ATTR_LATEX: :height 3in
  4) Find the cartesian coordinates of a vector pointing north west at 
-    \(120\degrees\) and with length \(15\).
- 5) Find the cartesian coordinates of a vector with angle \(300\degrees\)
+    \(120^\circ\) and with length \(15\).
+ 5) Find the cartesian coordinates of a vector with angle \(300^\circ\)
     and length \(25\).
-#+ATTR_LATEX :height 3in
+#+ATTR_LATEX: :height 3in
 *** Angle Selection
 Due to the periodic nature of the trigonometric functions, their inverses can
 not distinguish between angles where they assume the same values. Thus, when
@@ -89,29 +107,29 @@ There are four quadrants.
  - Quadrant I :: This is the north-east of the coordinate system. Vectors
    in this quadrant have components that are both positive. When calculating
    angles with the inverse trigonometric functions for these vectors, the
-   angle between \(0\degrees\) and \(90\degrees\) is chosen.
+   angle between \(0^\circ\) and \(90^\circ\) is chosen.
  - Quadrant II :: The north-west section of the coordinate system. Vectors
    here have negative \(x\) components and \(y\) components are still positive.
-   Their angles are between \(90\degrees\) and \(180\degrees\).
+   Their angles are between \(90^\circ\) and \(180^\circ\).
  - Quadrant III :: The south-west. Vectors pointing into this section have
-   components that are both negative. Here, angles are between \(180\degrees\)
-   and \(270\degrees\).
+   components that are both negative. Here, angles are between \(180^\circ\)
+   and \(270^\circ\).
  - Quadrant IV :: The south-east. Here, the \(y\) components are negative
-   whilst the \(x\) components are positive. Angles are between \(270\degrees\)
-   and \(360\degrees\).
+   whilst the \(x\) components are positive. Angles are between \(270^\circ\)
+   and \(360^\circ\).
 In example 2) above, the \(x\) component is negative whereas the \(y\) component
 is positive. Thus, the vector is in quadrant II and an angle between 
-\(90\degrees\) and \(180\degrees\) should be chosen that satisfies the
-formulas. This is the angle of \(135\degrees\) obtained from the \(x\) 
+\(90^\circ\) and \(180^\circ\) should be chosen that satisfies the
+formulas. This is the angle of \(135^\circ\) obtained from the \(x\) 
 component.
  1) Convert \(v=(1,1)\): The length is \(\|v\|=\sqrt(2)\), resulting in
     \(\cos(\alpha)=\frac{1}{\sqrt{2}}\) and a possible angle of 
     \(\alpha=\arccos(\frac{1}{\sqrt{2}})=44.9999999999\). The corresponding
     calculation using the second component yields the same result. The vector
-    points into quadrant I so the value of \(45\degrees\) is acceptable.
+    points into quadrant I so the value of \(45^\circ\) is acceptable.
  2) Convert \(v=(-1,-1)\): Again, the length is \(\|v\|=\frac{1}{\sqrt(2)}\).
     From the first component,
     \(\alpha=\arccos(\frac{-1}{\sqrt{2}})=135.0\). Using the second component,
-    \(\alpha=\arcsin(\frac{-1}{\sqrt{2}})=\(-45.0000000001\). There is a problem
+    \(\alpha=\arcsin(\frac{-1}{\sqrt{2}})=-45.0000000001\). There is a problem
     here because \(v\) points into quadrant III and the angle should be
-    between \(180\degrees\) and \(270\degrees\).
+    between \(180^\circ\) and \(270^\circ\).
