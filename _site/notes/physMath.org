@@ -1,13 +1,31 @@
+* TODO Exponents and Scientific Notation                           :noexport:
+* TODO Polynomials                                                 :noexport:
 * Equations
-Solving equations involves clearing denominators, expanding terms to remove
-parentheses and combining the terms that contain the variable to solve for and 
-those that don't. These two types of terms are then assembled at opposite sides
-of the equality sign and the further treatment of the equation depends on its
-kind. 
+Equations in one variable are expressions of the form $L(x)=R(x)$ where
+the variable $x$ is a placeholder for an unknown quantity. Solving an equation
+menas to find one or more concrete values $x_0$ for which $L(x_0)$ actually 
+equals $R(x_0)$. Such an $x_0$ is called a /solution/ of the equation. In the
+simplest case, an equation is the form $x=C$ where $C$ does not depend on $x$.
+In these simple cases, a solution $x_0=C$ can be read off directly. 
 
-As an example, consider \[4(x-3)+2=15-5(x+6).\] Expanding the left hand side
+Solving equations involves a number of transformations of the original equation
+$L(x)=R(x)$ with the goal of obtaining simple equations $x=C$ where the 
+solutions can be read of directly. If the transformations are chosen with care,
+the solutions of the transformed equations will be the same as those of the
+original equation.
+
+The general procedure to solve an equation consists of
+ 1) clearing denominators if necessary,
+ 2) expanding terms to remove parentheses,
+ 3) combining the terms that contain the variable to solve for and 
+    those that don't,
+ 4) assembling these two types of terms at opposite sides.
+The further treatment of the equation depends on its kind. 
+
+As an example, consider \[4(x-3)+2=15-5(x+6).\] No denominators need clearing
+and expanding the left hand side
 of the equation leads to  
-\[4\,x-12+2=15-5(x+6)\] and doing the same on the right results in
+\[4\,x-12+2=15-5(x+6).\] Doing the same on the right results in
 \[4\,x-12+2=15-5\,x-30.\] Now the constant terms on either side can be combined
 to get
 \[4\,x-10=-5\,x-15.\]
@@ -15,8 +33,63 @@ Adding $5x$ to both sides of the equation removes the term $-5x$ from the right
 hand side 
 \[9\,x-10=-15\]
 and adding $10$ will remove the constant from the left hand side, so that
-\[9\,x=-5.\] Finally, dividing both sides by $9$ gives the result
-\[x=-{\frac{5}{9}}.\]
+\[9\,x=-5.\] Finally, dividing both sides by $9$ gives the simple form
+\[x=-{\frac{5}{9}},\] from which the result $x_0=-5/9$ can now be read off. In
+order to verify the procedure, the original equation should be tested with
+the result. For the left hand side,
+\[4(\frac{5}{9}-3)+2=-{\frac{110}{9}}\]
+whereas the right hand side yields
+\[15-5*(-\frac{5}{9}+6) =-{\frac{110}{9}}\]
+as well, thus confirming $-5/9$ as a solution.
+** Operations on Equations
+The previous example showed a number of operations on equations that changed
+them to other equations that have the same solutions. Two equations that have
+the same solutions are called equivalent. In the example above, 
+$4(x-3)+2=15-5(x+6)$, $9\,x-10=-15$ and $x=-{\frac{5}{9}}$ are all equivalent
+because they all have the same solution $x=-{\frac{5}{9}}$. The most common
+operations on equations that transform an equation into an equivalent one are
+ 1) Expansions and simplifications such as ordering terms, which are done
+    separately on the left and right hand side of the equation,
+ 2) Additions of terms on both sides, ie transforming $L(x)=R(x)$ to 
+    $L(x)+C(x)=R(x)+C(x)$,
+ 3) Multiplying both sides of the equation by a nonzero term, ie 
+    $L(x)=R(x)$ is transformed to $C(x)L(x)=C(x)R(x)$. The restriction that 
+    $C(x)\not=0$ is important because it doesn't lead to an equivalent equation 
+    as it adds solutions to an equation. For example $x=5$ has sole solution $5$
+    but $(x-4)x=(x-4)5$ has $4$ as an additional solution. This will be 
+    important to remember when solving rational equations which have to be 
+    multiplied by terms containing the unknown to be solved for.
+** Types of Equations
+Equations can be classified into types according to their original appearance
+or their appearance after all meaningful simplifications and transformations
+are applied. For example, an equation where a variable occurs in the denominator
+of a fraction is called a /rational/ equation. An equation where a variable
+occurs in a root is a /radical/ equation. 
+
+There is a plethora of equation types, one for pretty much every function.
+For example, equations where a variable occurs in a $\sin$ function are called
+trigonometric equations, equations where a variable occurs in an exponent
+is called an exponential equation. Most of these can not be solved for
+the variables in any meaningful way without resorting to numerical algorithms
+except in special circumstances.
+
+After all the transforming and collection of terms, if the final equation
+can be brought to the form $L(x)=R$  where $L(x)$ is a polynomial in $x$ and 
+$R$ is a constant then it is called a /polynomial/ equation. These are further
+subclassified by degree. A /linear/ equation in $x$ is an equation where the
+maximal degree of $x$ in $L(x)$ is one, so $L(x)=ax+b$. A /quadratic/ equation
+is an equation where the maximal degree of $x$ in $L(x)$ is two, hence $L$
+looks like $L(x)=ax^2+bx+c$ with constants $a, b, c$. 
+
+Sometimes, equations classified according to their original appearance can be
+reclassified according to their final form. For example, rational equations
+can always be transformed to polynomial equations and thus can also be linear
+or quadratic in addition to being rational.
+** Quadratic Equations
+Quadratic equations are equations where $L(x)$ in $L(x)=R$ has degree two in
+$x$, so $L(x)=ax^2+bx+c$ with $a\not=0$. Assuming $R=0$ since any nonzero $R$
+can be absorbed into the constant $c$, a quadratic equation has the form
+\[ax^2+bx+c=0\] with $a\not=0$.
 * Vectors in the Plane
 Vectors are entities which have a direction in addition to a quantity. The
 quantity associated with a vector is its /length/. The description of its
