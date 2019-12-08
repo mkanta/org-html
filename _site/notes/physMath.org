@@ -1,16 +1,96 @@
+#+TITLE: Mathematics for High School Physics
 * TODO Exponents and Scientific Notation                           :noexport:
 * TODO Polynomials                                                 :noexport:
+* TODO Trigonometry                                                :noexport:
+* Analytic Geometry
+Analytic geometry is about describing geometric objects by equations $E(x,y)=0$,
+the geometric object described by this equation consists of all points $(x,y)$
+in the plane for which the equation holds.
+
+For example, a circle around the origin $(0,0)$ of a coordinate system with 
+radius $1$ is described by the equation $x^2+y^2-1=0$. All pairs $(x,y)$ of 
+points in the plane for which the equation holds are points on the circle. 
+
+A number of these equations occur frequently enough to warrant particular
+attention.
+** TODO Coordinate Systems                                         :noexport:
+** Lines
+Lines are described by linear equations
+#+NAME: lineEquation 
+\begin{equation}
+Ax+By+C=0
+\end{equation} 
+with constants $A$, $B$ and
+$C$. If $B\not=0$, this is often rewritten as $y=mx+b$ where $m=-\frac{A}{B}$,
+$b=-\frac{C}{A}$. Note that if $B=0$, the line is of the form $Ax+C=0$, which
+is satisfied by all points $(x,y)$ where $x=-\frac{C}{A}$ and arbitrary $y$
+if $C\not=0$ or $x=0$ of $C=0$. This is a line parallel to the \(y\)-axis 
+through $(-\frac{C}{A},0)$ in the former case and the \(y\)-axis itself in the
+latter.
+
+The constant $m$ is called the /slope/ of the line because it
+describes the inclination of the line with respect to the \(x\) axis, more 
+precisely $m=\tan \alpha$ where $\alpha$ is the angle between the line and the 
+\(x\)-axis. Lines parallel to the \(y\)-axis have no slope because 
+$\tan 90^\circ$ is not defined. This is precisely the case when $B=0$ in
+equation ([[lineEquation]]).
+
+The constant $b$ describes where the line hits the \(y\)-axis because for $x=0$,
+$y=b$ so the point $(0,b)$ is on the line. Since its first coordinate is zero,
+it is a point on the \(y\)-axis.
+
+Lines are determined by two points. The equation of a line through two points
+$(x_1,y_1)$ and $(x_2,y_2)$ where $x_1\not=x_2$ can be obtained as
+#+NAME: slopeForm
+\begin{equation}
+y-y_1=\frac{y_2-y_1}{x_2-x_1}(x-x_1)
+\end{equation}
+ or
+\[y=\frac{y_2-y_1}{x_2-x_1}x+y_1-\frac{y_2-y_1}{x_2-x_1}x_1.\]
+If $x_1=x_2$ then the line is parallel to the \(y\)-axis and has equation
+$x=x_1$. This, again, is the case where $B=0$ in equation ([[lineEquation]]).
+
+The ratio $\frac{y_2-y_1}{x_2-x_1}$, ie the slope of the line, is often 
+referred to as /rise/ over /run/ in textbooks because it describes how the 
+line rises (difference in \(y\)-values) as it runs along the \(x\)-axis 
+(difference in \(x\)-values).
+
+Note that equation ([[slopeForm]]) can also be written as
+\[(x_2-x_1)(y-y_1)=(y_2-y_1)(x-x_1)\] or
+\[-(y_2-y_1)x+(x_2-x_1)y +x_1(y_2-y_1)-y_1(x_2-x_1)=0\]
+which has the same form as equation ([[lineEquation]]) with $A=-(y_2-y_1)$,
+$B=x_2-x_1$ and $C=x_1(y_2-y_1)-y_1(x_2-x_1)$. This equation always works
+without any worries about undefined slopes. The only tripping point here is the
+order of the point coordinates, which has to be followed meticously to avoid
+sign errors.
+*** TODO Perpendicular Lines                                       :noexport:
+*** TODO Hesse Form                                                :noexport:
+** Conic Sections
+Conic sections are geometric objects defined by quadratic equations
+$Ax^2+By^2+Cxy+Dx+Ey+F$. These include circles, ellipses and parabolas. Of
+particular interest for physical applications are parabolas, which are described
+by equations of the form $y=ax^2+bx+c$.
+** Parabolas
+Parabolas are conic sections described by quadratic equations of the form
+\[y=ax^2+bx+c.\] They are of physial interest because they describe the
+trajectories of objects subject to constant acceleration. For example, a freely
+falling body has displacement
+\[s(t)=s_i+v_it-gt^2\]
+at time $t$, where $s_i$ is its initial position, $v_i$ its initial velocity
+and $g$ the acceleration due to gravity, about $9.81\frac{m}{s^2}$. This means
+it traces out a parabola in a coordinate system plotting displacement $s$ vs. 
+time $t$.
 * Equations
 Equations in one variable are expressions of the form $L(x)=R(x)$ where
 the variable $x$ is a placeholder for an unknown quantity. Solving an equation
-menas to find one or more concrete values $x_0$ for which $L(x_0)$ actually 
+means to find one or more concrete values $x_0$ for which $L(x_0)$ actually 
 equals $R(x_0)$. Such an $x_0$ is called a /solution/ of the equation. In the
 simplest case, an equation is the form $x=C$ where $C$ does not depend on $x$.
-In these simple cases, a solution $x_0=C$ can be read off directly. 
+In this case, a solution $x_0=C$ can be read off directly. 
 
 Solving equations involves a number of transformations of the original equation
-$L(x)=R(x)$ with the goal of obtaining simple equations $x=C$ where the 
-solutions can be read of directly. If the transformations are chosen with care,
+$L(x)=R(x)$ with the goal of obtaining simple equations $x=C$ in order to 
+read off the solutions directly. If the transformations are chosen with care,
 the solutions of the transformed equations will be the same as those of the
 original equation.
 
@@ -89,7 +169,91 @@ or quadratic in addition to being rational.
 Quadratic equations are equations where $L(x)$ in $L(x)=R$ has degree two in
 $x$, so $L(x)=ax^2+bx+c$ with $a\not=0$. Assuming $R=0$ since any nonzero $R$
 can be absorbed into the constant $c$, a quadratic equation has the form
-\[ax^2+bx+c=0\] with $a\not=0$.
+#+NAME: quadeq
+\begin{equation}
+ax^2+bx+c=0
+\end{equation}
+with $a\not=0$.
+
+If $b=0$ then the equation reads \[ax^2+c=0\] and is essentially linear in $x^2$
+so this case can be solved by solving for $x^2$,
+\[x^2=-\frac{c}{a},\]
+and then taking square roots to obtain solutions $x_1=\sqrt{-\frac{c}{a}}$ and
+$x_2=-\sqrt{-\frac{c}{a}}$. If $b\not=0$ it is possible to transform the 
+original equation to the form $L(x)^2+C=0$ where $L(x)$ is a linear epression
+in $x$ and $C$ a constant. This transformation is usually referred to as
+/Completing the Square/.
+*** Completing the Square
+This transformation is based on the observation that
+\[(x+D)^2=x^2+2\,D\,x+D^2\] so adding $\frac{B}{2}^2$ to an equation
+#+NAME: quadeq:1
+\begin{equation}
+x^2+Bx+C=0
+\end{equation}
+results in \[x^2+Bx+\frac{B}{2}^2+C=\frac{B}{2}^2.\]
+The part \[x^2+Bx+\left(\frac{B}{2}\right)^2=x^2+2\frac{B}{2}x+\left(\frac{B}{2}\right)^2 \] has the 
+form \[x^2+2\,D\,x+D^2\] with $D=\frac{B}{2}$, so 
+\[x^2+Bx+\left(\frac{B}{2}\right)^2=(x+B)^2\] and equation ([[quadeq:1]]) becomes
+\[\left(x+\frac{B}{2}\right)^2+C=\left(\frac{B}{2}\right)^2\] 
+or
+\[\left(x+\frac{B}{2}\right)^2=\left(\frac{B}{2}\right)^2-C.\] Taking square roots gives
+\[x+\frac{B}{2}=\pm\sqrt{\left(\frac{B}{2}\right)^2-C}\] and the solutions of ([[quadeq:1]])
+are
+#+NAME: quadsol:1
+\begin{equation}
+x_1=-\frac{B}{2}+\sqrt{\left(\frac{B}{2}\right)^2-C}
+\end{equation} 
+and 
+#+NAME: quadsol:2
+\begin{equation}
+x_2=-\frac{B}{2}-\sqrt{\left(\frac{B}{2}\right)^2-C}.
+\end{equation}
+Note that this can be used to solve the original equation ([[quadeq]]). Dividing
+([[quadeq]]) by $a$ results in an equation of the form ([[quadeq:1]]) with 
+$B=\frac{b}{a}$ and $C=\frac{c}{a}$. Thus, the solution ([[quadsol:1]]) becomes
+\[x_1=-\frac{b}{2a}+\sqrt{\left(\frac{b}{2a}\right)^2-\frac{c}{a}}\]
+and ([[quadsol:2]])
+\[x_2=-\frac{b}{2a}-\sqrt{\left(\frac{b}{2a}\right)^2-\frac{c}{a}}.\]
+Rewritten as
+#+NAME: quadformula
+\begin{equation}
+x_{1/2}=\frac{-b\pm\sqrt{b^2-4ac}}{2a}
+\end{equation}
+this is called the /Quadratic Formula/.
+
+The process of completing the square is not only used to solve quadratic
+equations but also to rewrite quadratic functions
+#+NAME: quadfunc
+\begin{equation}
+f(x)=ax^2+bx+c
+\end{equation}
+as
+#+NAME: quadfunc:1
+\begin{equation}
+f(x)=a\left(x+\frac{b}{2a}\right)^2+c-\left(\frac{b}{2a}\right)^2.
+\end{equation}
+
+The form ([[quadfunc:1]]) is beneficial when trying to optimise function $f(x)$
+because the square of real numbers is always positive. Thus, when $a$ is 
+positive then $f(x)$ has a minimum when $x+\frac{b}{2a}=0$. If $a$ is
+negative then $f(x)$ has a maximum there.
+
+This is often used in physical problems involving the throwing of things into
+the air. The formula for the vertical displacement of a thrown object at time
+$t$ is 
+#+NAME: accelmotion
+\begin{equation}
+ s(t)=s_i+v_it+\frac{1}{2}at^2 
+\end{equation}
+where $s_i$ is the initial position, $v_i$ the initial velocity and $a$ the 
+acceleration. One of the questions in this context is when the object reaches 
+its highest point. This can be answered by completing the square in formula
+([[accelmotion]]). The acceleration here is the acceleration $g$ due to gravity,
+so ([[accelmotion]]) looks like
+\[ s(t)=s_i+v_it-\frac{1}{2}gt^2 \]
+in a coordinate system where upwards displacement is positive since $g$ is
+downwards acceleration. 
+
 * Vectors in the Plane
 Vectors are entities which have a direction in addition to a quantity. The
 quantity associated with a vector is its /length/. The description of its
