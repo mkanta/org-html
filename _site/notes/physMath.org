@@ -1,11 +1,28 @@
 #+TITLE: Mathematics for High School Physics
+#+LATEX_CLASS: book
 * TODO Exponents and Scientific Notation                           :noexport:
 * TODO Polynomials                                                 :noexport:
 * TODO Trigonometry                                                :noexport:
 * Analytic Geometry
-Analytic geometry is about describing geometric objects by equations $E(x,y)=0$,
-the geometric object described by this equation consists of all points $(x,y)$
-in the plane for which the equation holds.
+Analytic geometry is about describing geometric objects by equations. For that
+purpose, various types of coordinate systems are introduced that allow to
+relate points to measurements of their locations. 
+
+For example, in a plane
+an arbitrary reference point can be chosen as origin and the location of
+every other point can be determined by describing how far to go along
+the horizontal and the vertical from the origin in order to reach that point.
+
+This introduces a variable $x$ to describe how far to go along the horizontal
+and a corresponding $y$ to do the same for the vertical. By convention,
+positive $x$-values indicate movement to the right, negative values movement
+to the left. For the $y$ variable, positive values indicate positions reached
+by going up whereas negative values are related to positions reached by going
+down.
+
+In the plane, geometric objects can thus be described by equations in two 
+variables, $E(x,y)=0$. The geometric object described by this equation 
+consists of all points $(x,y)$ in the plane for which the equation holds.
 
 For example, a circle around the origin $(0,0)$ of a coordinate system with 
 radius $1$ is described by the equation $x^2+y^2-1=0$. All pairs $(x,y)$ of 
@@ -13,7 +30,54 @@ points in the plane for which the equation holds are points on the circle.
 
 A number of these equations occur frequently enough to warrant particular
 attention.
-** TODO Coordinate Systems                                         :noexport:
+** TODO Coordinate Systems
+There are two types of coordinate systems in common use. For both of them,
+a reference point, called the origin, is chosen together with a unit of length 
+and a direction.
+ - Cartesian coordinates :: Here additional directions are chosen depending 
+                on the dimension
+                of the space the points are in. Usually, these directions are
+                chosen at right angles to simplify calculations. Points are 
+                described by tuples describing how far to go along the
+                theses directions in order to reach the point.
+
+                For example, in the plane the first direction chosen is often
+                the horizontal to the right, often called the \(x\)-axis, and 
+                the second the vertical, often called the \(y\)-axis, going
+                upwards. A point like $(-5,3)$ in the plane is reached by 
+                going $5$ units to the left along the horizontal direction 
+                and then $3$ units up. 
+
+                This can be generalised easily to higher dimensions by
+                adding more directions. In space, the \(x\)-axis is still
+                horizontal to the right. The \(y\)-axis, however, is usually
+                chosen to be the depth pointing towards the observer.
+                The \(z\)-axis usually points upwards at a right angle to the
+                plane defined by $x$ and $y$ axis.
+                Here, point $(-5,3,6)$ would be reached by going $5$ units to 
+                the left, $3$ units towards the observer and $6$ units up.
+
+ - Polar coordinates :: Here, points are described by angles with the chosen
+                direction and the straight distance from the origin. These
+                coordinates are most popular in low dimensions, up to 3D, 
+                after that they are difficult to handle.
+              
+                In the plane, the horizontal axis pointing to the right is
+                usually chosen as the direction. The point $(30:2)$ would
+                be reached by rotating the \(x\)-axis $30^\circ$ counterclockwise
+                about the origin and then moving $2$ units away from the
+                origin along this rotated \(x\)-axis.
+
+                An example where polar coordinated are used in 3 dimensions
+                would be in geographical coordinates where the latitude of
+                a point is its angle with the equatorial plane of the eart
+                and its longitude its angle with the plane cutting the earth
+                along the meridian of Greenwich.
+
+*** TODO Cartesian Planar Coordinates                              :noexport:
+Add images.
+*** TODO Polar Planar Coordinates                                  :noexport:
+Add images.
 ** Lines
 Lines are described by linear equations
 #+NAME: lineEquation 
@@ -101,26 +165,26 @@ The general procedure to solve an equation consists of
     those that don't,
  4) assembling these two types of terms at opposite sides.
 The further treatment of the equation depends on its kind. 
-
-As an example, consider \[4(x-3)+2=15-5(x+6).\] No denominators need clearing
-and expanding the left hand side
-of the equation leads to  
-\[4\,x-12+2=15-5(x+6).\] Doing the same on the right results in
-\[4\,x-12+2=15-5\,x-30.\] Now the constant terms on either side can be combined
-to get
-\[4\,x-10=-5\,x-15.\]
-Adding $5x$ to both sides of the equation removes the term $-5x$ from the right
-hand side 
-\[9\,x-10=-15\]
-and adding $10$ will remove the constant from the left hand side, so that
-\[9\,x=-5.\] Finally, dividing both sides by $9$ gives the simple form
-\[x=-{\frac{5}{9}},\] from which the result $x_0=-5/9$ can now be read off. In
-order to verify the procedure, the original equation should be tested with
-the result. For the left hand side,
-\[4(\frac{5}{9}-3)+2=-{\frac{110}{9}}\]
-whereas the right hand side yields
-\[15-5*(-\frac{5}{9}+6) =-{\frac{110}{9}}\]
-as well, thus confirming $-5/9$ as a solution.
+** Example
+ As an example, consider \[4(x-3)+2=15-5(x+6).\] No denominators need clearing
+ and expanding the left hand side
+ of the equation leads to  
+ \[4\,x-12+2=15-5(x+6).\] Doing the same on the right results in
+ \[4\,x-12+2=15-5\,x-30.\] Now the constant terms on either side can be combined
+ to get
+ \[4\,x-10=-5\,x-15.\]
+ Adding $5x$ to both sides of the equation removes the term $-5x$ from the right
+ hand side 
+ \[9\,x-10=-15\]
+ and adding $10$ will remove the constant from the left hand side, so that
+ \[9\,x=-5.\] Finally, dividing both sides by $9$ gives the simple form
+ \[x=-{\frac{5}{9}},\] from which the result $x_0=-5/9$ can now be read off. In
+ order to verify the procedure, the original equation should be tested with
+ the result. For the left hand side,
+ \[4(\frac{5}{9}-3)+2=-{\frac{110}{9}}\]
+ whereas the right hand side yields
+ \[15-5*(-\frac{5}{9}+6) =-{\frac{110}{9}}\]
+ as well, thus confirming $-5/9$ as a solution.
 ** Operations on Equations
 The previous example showed a number of operations on equations that changed
 them to other equations that have the same solutions. Two equations that have
@@ -182,9 +246,11 @@ and then taking square roots to obtain solutions $x_1=\sqrt{-\frac{c}{a}}$ and
 $x_2=-\sqrt{-\frac{c}{a}}$. If $b\not=0$ it is possible to transform the 
 original equation to the form $L(x)^2+C=0$ where $L(x)$ is a linear epression
 in $x$ and $C$ a constant. This transformation is usually referred to as
-/Completing the Square/.
-*** Completing the Square
-This transformation is based on the observation that
+/Completing the Square/. Another method to solve quadratic equations is by
+factoring.
+*** Completing the Square 
+Solving quadratic equations by completing the square will always work.
+It is based on the observation that
 \[(x+D)^2=x^2+2\,D\,x+D^2\] so adding $\frac{B}{2}^2$ to an equation
 #+NAME: quadeq:1
 \begin{equation}
@@ -193,7 +259,7 @@ x^2+Bx+C=0
 results in \[x^2+Bx+\frac{B}{2}^2+C=\frac{B}{2}^2.\]
 The part \[x^2+Bx+\left(\frac{B}{2}\right)^2=x^2+2\frac{B}{2}x+\left(\frac{B}{2}\right)^2 \] has the 
 form \[x^2+2\,D\,x+D^2\] with $D=\frac{B}{2}$, so 
-\[x^2+Bx+\left(\frac{B}{2}\right)^2=(x+B)^2\] and equation ([[quadeq:1]]) becomes
+\[x^2+Bx+\left(\frac{B}{2}\right)^2=\left(x+\frac{B}{2}\right)^2\] and equation ([[quadeq:1]]) becomes
 \[\left(x+\frac{B}{2}\right)^2+C=\left(\frac{B}{2}\right)^2\] 
 or
 \[\left(x+\frac{B}{2}\right)^2=\left(\frac{B}{2}\right)^2-C.\] Taking square roots gives
@@ -253,7 +319,56 @@ so ([[accelmotion]]) looks like
 \[ s(t)=s_i+v_it-\frac{1}{2}gt^2 \]
 in a coordinate system where upwards displacement is positive since $g$ is
 downwards acceleration. 
+*** Factoring
+Factoring a quadratic equation is often less involved than completing the
+square but does not always work. It is based on the observation that a product
+of two polynomials is zero if and only if one of the factors is zero. Thus,
+if a quadratic equation $ax^2+bx+c=0$ can be written as a product 
+\[ ax^2+bx+c=(A_1x+B_1)(A_2x+B_2)=0\] of linear factors then either
+\[A_1x+B_1=0\] or
+\[A_2x+B_2=0\] or both. In any case, the solutions of the original equation can
+then be obtained by solving the linear equations.
 
+The problem with this approach is finding the coefficients $A_1$, $B_1$, $A_2$
+and $B_2$ of the linear factors. A particularly simple case for factoring
+arises when the constant term $c$ in the quadratic equation is zero since then
+equation ([[quadeq]]) becomes
+\[ax^2+bx=0\] from which the variable $x$ can be factored out to obtain
+\[x(ax+b)=0.\] For this to be zero, either $x=0$ or $ax+b=0$ so there are
+two solutions, $x_1=0$ and $x_2=-b/a$.
+
+Apart from this case, factoring should only be attempted when there are reasons
+to expect that all solutions are rational, that is, of the form $x=-B/A$ where
+$A$ and $B$ are integers. The reason that this might work is that the product
+of linear factors $A_1x+B_1$ and $Ax_2+B_2$ is
+\[(A_1x+B_1)(A_2x+B_2)= A_{1}\,A_{2}\,x^2+(A_{1}\,B_{2}+A_{2}\,B_{1})\,x+B_{1}\,B_{2}.\]
+As a consequence, the coefficients in ([[quadeq]]) are of the form
+$a=A_{1}\,A_{2}$, $b=A_{1}\,B_{2}+A_{2}\,B_{1}$ and $c=B_{1}\,B_{2}$,
+indicating that $A_1$, $A_2$ divide $a$ and $B_1$, $B_2$ divide $b$. So the 
+algorithm for factoring $ax^2+bx+c=0$ is
+ 1) Clear denominators in $a$, $b$, $c$ if necessary so that the new equation
+    becomes $a'x^2+b'x+c$ with $a'$, $b'$, $c'$ integers
+ 2) List pairs (A,B) of integers such that $A$ divides $a'$ and $B$ divides $c'$.
+ 3) For any two (A_1,B_1) and (A_2,B_2) of these pairs, check whether
+    $b'=A_{1}\,B_{2}+A_{2}\,B_{1}$ is satisfied
+If there is such a pair, $a'x^2+b'x+c'=(A_1x+B_1)(A_2x+B_2)$ is a factorisation
+of $a'x^2+b'x+c'$.
+
+Sometimes, the factorization itself is not needed. In that case it suffices
+to plug the values $\pm B/A$ obtained in step 2) above into the equation and
+see if it is zero.
+ 
+All this can be a lot of work depending on the number of divisors of $a'$ and 
+$c'$, which may not even be rewarded since there is no guarantee that quadratic
+equations with integer coefficients have integer solutions. That's why this
+should only be attempted when there is a good chance that the solutions are
+integer. Or, of course, if some piece of software is at hand that automates
+the process.
+
+As an aside, it is actually known that every polynomial of degree $n$ can be
+factored into a product of $n$ linear factors, however only with coefficients
+in the complex numbers, so this method can also be used with polynomial
+equations of higher degree.
 * Vectors in the Plane
 Vectors are entities which have a direction in addition to a quantity. The
 quantity associated with a vector is its /length/. The description of its
