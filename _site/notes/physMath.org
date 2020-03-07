@@ -1,4 +1,4 @@
-#+TITLE: Mathematics for High School Physics
+#+TITLE: Mathematics with Maxima
 #+LATEX_CLASS: book
 * TODO Exponents and Scientific Notation                           :noexport:
 * TODO Polynomials                                                 :noexport:
@@ -8,7 +8,11 @@ Analytic geometry is about describing geometric objects by equations. For that
 purpose, various types of coordinate systems are introduced that allow to
 relate points to measurements of their locations. 
 
-For example, in a plane
+The purpose of this is to determine certain points of interest by algebraic
+means, such as the points of intersections of various geometric objects. These
+points will be the solutions of algebraic equations. 
+
+As an example for a coordinate system in a plane,
 an arbitrary reference point can be chosen as origin and the location of
 every other point can be determined by describing how far to go along
 the horizontal and the vertical from the origin in order to reach that point.
@@ -30,7 +34,7 @@ points in the plane for which the equation holds are points on the circle.
 
 A number of these equations occur frequently enough to warrant particular
 attention.
-** TODO Coordinate Systems
+** Coordinate Systems
 There are two types of coordinate systems in common use. For both of them,
 a reference point, called the origin, is chosen together with a unit of length 
 and a direction.
@@ -84,35 +88,57 @@ Lines are described by linear equations
 \begin{equation}
 Ax+By+C=0
 \end{equation} 
-with constants $A$, $B$ and
-$C$. If $B\not=0$, this is often rewritten as $y=mx+b$ where $m=-\frac{A}{B}$,
-$b=-\frac{C}{A}$. Note that if $B=0$, the line is of the form $Ax+C=0$, which
+with constants $A$, $B$ and $C$. 
+Note that if $B=0$, the line is of the form $Ax+C=0$, which
 is satisfied by all points $(x,y)$ where $x=-\frac{C}{A}$ and arbitrary $y$
-if $C\not=0$ or $x=0$ of $C=0$. This is a line parallel to the \(y\)-axis 
-through $(-\frac{C}{A},0)$ in the former case and the \(y\)-axis itself in the
-latter.
+if $A\not=0$. This is a line parallel to the \(y\)-axis 
+through $(-\frac{C}{A},0)$. If $A=B=0$  then all bets are off.
+
+If $B\not=0$, equation ([[lineEquation]]) is often rewritten in /slope-intercept/ 
+form as 
+#+NAME: lineSlopeForm
+\begin{equation}
+y=mx+b
+\end{equation}
+where $m=-\frac{A}{B}$, $b=-\frac{A}{B}$. 
 
 The constant $m$ is called the /slope/ of the line because it
 describes the inclination of the line with respect to the \(x\) axis, more 
 precisely $m=\tan \alpha$ where $\alpha$ is the angle between the line and the 
-\(x\)-axis. Lines parallel to the \(y\)-axis have no slope because 
-$\tan 90^\circ$ is not defined. This is precisely the case when $B=0$ in
-equation ([[lineEquation]]).
+\(x\)-axis. Note that lines parallel to the \(y\)-axis can not be written in
+this way because they have no slope as $\tan 90^\circ$ is not defined. 
+This is precisely the case when $B=0$ in equation ([[lineEquation]]).
 
-The constant $b$ describes where the line hits the \(y\)-axis because for $x=0$,
+The constant $b$ in equation ([[lineSlopeForm]]) is called the /intercept/.
+It describes where the line hits the \(y\)-axis because for $x=0$,
 $y=b$ so the point $(0,b)$ is on the line. Since its first coordinate is zero,
 it is a point on the \(y\)-axis.
 
-Lines are determined by two points. The equation of a line through two points
-$(x_1,y_1)$ and $(x_2,y_2)$ where $x_1\not=x_2$ can be obtained as
+Lines are often determined by two points. The equation of a line through two 
+points $(x_1,y_1)$ and $(x_2,y_2)$ where $x_1\not=x_2$ can be obtained as
 #+NAME: slopeForm
 \begin{equation}
 y-y_1=\frac{y_2-y_1}{x_2-x_1}(x-x_1)
 \end{equation}
  or
-\[y=\frac{y_2-y_1}{x_2-x_1}x+y_1-\frac{y_2-y_1}{x_2-x_1}x_1.\]
-If $x_1=x_2$ then the line is parallel to the \(y\)-axis and has equation
-$x=x_1$. This, again, is the case where $B=0$ in equation ([[lineEquation]]).
+#+Name: slopeFormClear
+\begin{equation}
+y=\frac{y_2-y_1}{x_2-x_1}x+y_1-\frac{y_2-y_1}{x_2-x_1}x_1.
+\end{equation}
+From this, slope $m$ and intercept $b$ can be read off directly as
+#+NAME: slopeFromPoints
+\begin{equation}
+m=\frac{y_2-y_1}{x_2-x_1}
+\end{equation}
+and
+#+NAME: interceptFromPoints
+\begin{equation}
+b=y_1-\frac{y_2-y_1}{x_2-x_1}x_1=y_1-mx_1.
+\end{equation}
+
+If $x_1=x_2$ then the slope is not defined. Obviously, the line is parallel to 
+the \(y\)-axis in that situation and has equation $x=x_1$. This, again, is the 
+case where $B=0$ in equation ([[lineEquation]]).
 
 The ratio $\frac{y_2-y_1}{x_2-x_1}$, ie the slope of the line, is often 
 referred to as /rise/ over /run/ in textbooks because it describes how the 
@@ -127,23 +153,358 @@ $B=x_2-x_1$ and $C=x_1(y_2-y_1)-y_1(x_2-x_1)$. This equation always works
 without any worries about undefined slopes. The only tripping point here is the
 order of the point coordinates, which has to be followed meticously to avoid
 sign errors.
+*** Line Calculations
+When calculating lines it is often desirable to calculate the /slope-intercept/
+form ([[slopeForm]]), so the slope $m$ and the intercept $b$ have to be calculated
+if possible.
+**** Line from Two Points
+ - Determine the line through $(-5,3)$, $(5,-2)$:
+   
+   With $x_1=-5$, $y_1=3$ and $x_2=5$, $y_2=-2$,
+   equation ([[slopeFromPoints]]) yields the slope
+   \[m=\frac{-2-3}{5-(-5)}=\frac{-2-3}{5+5}=\frac{-5}{10}=-\frac{1}{2}\]
+   and equation ([[interceptFromPoints]]) yields the intercept
+   \[b=3-\frac{-2-3}{5-(-5)}(-5)=3-(-\frac{1}{2})(-5)=3-\frac{5}{2}=\frac{1}{2},\]
+   hence the equation of the line through these two points is
+   \[y=-\frac{1}{2}x-\frac{7}{2}.\] The line itself is the set
+   \[\left\{(x,y)\left|y=-\frac{1}{2}x+\frac{1}{2}\right.\right\}.\]
+
+ - Determine the line through $(3,2)$, $(3,-5)$:
+
+   Here $x_1=x_2=3$, so this is the situation where the slope is not defined.
+   As discussed above, the line has equation $x=3$ and the $y$ coordinate can
+   be chosen at will. The line itself is the set
+   \[\{(3,y)|y\mbox{ arbitrary}\}.\]
+
+ - Determine the line through $(1,7)$, $(3,1)$.
+ - Determine the line through $(2,3)$, $(-5,3)$.
+ - Determine the line through $(1,1)$, $(3,7)$.
+In practice, lines are easier to determine using a computer algebra system like
+maxima. Instead of using the formulas above, the problem of determining lines
+from two points can be reduced to solving a pair of linear equations. For
+example the line through $(1,7)$ and $(3,1)$ can be obtained from the maxima
+code below.
+#+BEGIN_SRC maxima
+  eq1:7=m+b; /*plug point (1,7) into y=mx+b and call the equation eq1*/
+  eq2:1=m*3+b; /*dito for point (3,1) but call the equation eq2*/
+  /*Now solve the system of linear equations eq1, eq2 for variables m and b*/
+  linsolve([eq1,eq2],[m,b]); 
+#+END_SRC
+**** Line from Intercept and Point
+
+In a sense this is easier than calculating a line from two points because the
+intercept $b$ is already known. So all that needs to be done is to put the
+given point into $y=mx+b$ and then to solve for $m$. 
+
+Note that if the given point is on the \(y\)-axis, that is of the form 
+$(0,y_0)$, this presents a special situation since the slope drops out of the 
+equation due to $x$ being zero and cannot be solved for.
+But it is pretty clear what happens here: if the point is different from the
+intercept, the only possible line is the \(y\)-axis itself, ie the line $x=0$,
+if it coincides with the intercept then any line through it works because there
+is only one anchor point for the line.
+ - Find the line through $(3,4)$ with intercept $-8$:
+
+   Inserting the known values $b=-8$, $x=3$ and $y=4$ into the slope-intercept
+   form ([[lineSlopeForm]]) of the line equation results in $4=3m-8$. After solving
+   this for $m$, $m=4$ is obtained and the equation of the line is found to be
+   $y=4x-8$.
+
+ - Find the line through $(3,-4)$ with intercept $8$.
+ - Find the line through $(-2,7)$ and intercept $2$.
+ - Find the line through $(-2,7)$ and intercept $-2$.
+ - Find the line through $(0,1)$ and intercept $4$.
+ - Find the line through $(0,2)$ and intercept $2$.
+
+**** Other Line Calculations
+# Line through point and parallel to ...
+# Line through point and perpendicular to ...
+***** Intersections of lines
+
+Here, two lines $y=m_1x+b_1$ and $y=m_2x+b_2$ are given and a point $(x_0,y_0)$
+is to be found which resides on both of them. This point must satisfy both
+equations, ie $y_0=m_1x_0+b_1$ and $y_0=m_2x_0+b_2$. Whilst technically a
+system of two equations to be solved for $x_0$, $y_0$, the variable $y_0$ can
+easily be eliminated because the two equations entail
+\[ m_1x_0+b_1=m_2x_0+b_2, \]
+which only has one unknown $x_0$. Solving for $x_0$ and plugging the result into
+any of the two line equations will yield the intersection point.
+ - Calculate the intersection of the lines $y=2x+1$ and $y=x-1$:
+   The \(x\)-coordinate of the intersection has to satisfy $2x+1=x-1$. Combining
+   like terms yields $x+2=0$ or $x=-2$. The corresponding \(y\)-value can
+   then be obtained from $y=x-1$ as $y=-2-1=-3$ so that the intersection is at
+   $(-2,-3)$.
+ - Calculate the intersection of the lines $y=-3x+5$ and $y=\frac{1}{3}x+1$.
+ - Calculate the intersection of $y=2x-1$ and $y=x+1$.
+ - Calculate the intersection of $y=3x+1$ and $y=3x+5$. What's the problem here?
+# $(\frac{6}{5},\frac{7}{5})$, $(2,3)$, No intersection, thus lines are parallel.
+***** Line parallel to another line 
+
+Since parallel lines have the same slope, calculating a line parallel to another
+line requires another point. In order to calculate a line parallel to $y=mx+b$
+and through $(x_0,y_0)$ only the intercept has to be calculated.
+ - Find the line parallel to $y=3x+5$ going through $(2,-1)$:
+   The requested line has slope $3$, hence it is of the form $y=3x+b$ for some
+   unknown $b$. Inserting $(2,-1)$ into this equation establishes $-1=3*2+b$ as
+   condition for $b$. Solving for $b$ yields $b=-7$ and $y=3x-7$ for the line.
+ - Find the line parallel to $y=4x-6$ and going through $(1,1)$.
+ - Find the line parallel to $y=-3x-2$ and going through $(3,4)$.
+ - Find the line parallel to $y=-x+3$ and going through $(-2,7)$.
+
+**** Best Fit Line
+
+The calculation of a best fit line is a problem that occurs frequently in the
+context of data analysis. A set of points $(x_i,y_i)$ is obtained from some
+sort of measurement, usually forming some sort of cloud. The objective is
+to find a line $y=mx+b$ that fits best in some sense. There are many
+possibilities to define what this means but the definition used most often is
+the line which minimises the sum of squared distances $(y_i-(mx_i+b))^2$ taken
+over all data points $(x_i,y_i)$. This kind of best fit line is also called
+the least squares line.
+# and $(\frac{\overline{X^2}}{\overline{X}},\frac{\overline{XY}}{\overline{X}})$
+A closer analysis of this reveals that the line of best fit contains the point
+$(\overline{X},\overline{Y})$ 
+where the bar denotes averages: $\overline{X}$ is the average of the $x_i$, 
+and $\overline{Y}$ the average of the y-components $y_i$ of the datapoints. 
+This results in relation
+#+NAME: bfl_slope_intercept
+\begin{equation}
+\overline{Y}=m\overline{X}+b
+\end{equation}
+between the slope $m$ and the intercept $b$.
+Defining 
+\[ \overline{XY}=\mbox{average of the products }x_iy_i\]
+and
+\[ \overline{X^2}=\mbox{average of the squares }x_i^2\]
+the slope of the best fit line turns out to be
+\begin{equation}
+m=\frac{\bar{X}\bar{Y}-\overline{XY}}{
+\overline{X}^2-\overline{X^2}}
+\end{equation} 
+Note that $\overline{X^2}$ and $\overline{X}^2$ are not the same: the latter
+is the square of the averages $\overline{X}$ of the $x_i$ whereas the former
+is the average of the squares $x_i^2$ of the $x_i$. In a similar vein, 
+$\bar{X}\bar{Y}$ is the product of the averages of the $x_i$ and $y_i$, respectively,
+whereas $\overline{XY}$ denotes the average of the individual products $x_iy_i$.
+Taking into consideration the relationship ([[bfl_slope_intercept]]), the intercept
+of the best fit line turns out to be
+\[
+b=\overline{Y}-\frac{\bar{X}\bar{Y}-\overline{XY}}{\overline{X}^2-\overline{X^2}}\overline{X}.
+\]
 *** TODO Perpendicular Lines                                       :noexport:
 *** TODO Hesse Form                                                :noexport:
 ** Conic Sections
 Conic sections are geometric objects defined by quadratic equations
-$Ax^2+By^2+Cxy+Dx+Ey+F$. These include circles, ellipses and parabolas. Of
-particular interest for physical applications are parabolas, which are described
-by equations of the form $y=ax^2+bx+c$.
+#+NAME: generalConic
+\begin{equation}
+Ax^2+By^2+Cxy+Dx+Ey+F=0.
+\end{equation}
+These include circles, ellipses, hyperbolas and parabolas. 
+
+Common calculations involving conic sections consist of determining the 
+intersections of conics with other conics or those of conics with lines.
+
+In addition, there are several normal forms that need to be calculated on
+occasion. For example, the circle with radius $r$ about centre-point
+$(c_x, c_y)$ has equation \[(x-c_x)^2+(y-c_y)^2=r^2,\] which is considered
+the normal form of the circle equation, and a common question
+is whether a general conic of the form  ([[generalConic]]) can be transformed
+into this normal form.
 ** Parabolas
-Parabolas are conic sections described by quadratic equations of the form
-\[y=ax^2+bx+c.\] They are of physial interest because they describe the
-trajectories of objects subject to constant acceleration. For example, a freely
-falling body has displacement
-\[s(t)=s_i+v_it-gt^2\]
+Of particular interest for physical applications are parabolas, which are 
+described by quadratic equations of the form \[y=ax^2+bx+c.\]
+They are of physial interest in mechanics, because they describe, among other 
+things, the trajectories of objects subject to constant acceleration. For 
+example, a freely falling body has displacement
+\[s(t)=s_i+v_it-\frac{1}{2}gt^2\]
 at time $t$, where $s_i$ is its initial position, $v_i$ its initial velocity
 and $g$ the acceleration due to gravity, about $9.81\frac{m}{s^2}$. This means
 it traces out a parabola in a coordinate system plotting displacement $s$ vs. 
 time $t$.
+ 1) <<golfExample>> A golfer propels a ball at $75\frac{m}{s}$ at an angle of $16^\circ$
+   from an elevation of $2m$.
+    - How long does the golf-ball fly?
+      Calculating the vertical trajectory, we have an initial position of 
+      $s_i=2m$, an initial verical velocity component of $v_i=\sin(16^\circ)*75$
+      and an equation of vertical motion of 
+      \[s(t)=2+75\sin(16^\circ)t-\frac{1}{2}9.81t^2,\] which can be used to determine
+      how long the ball flies before it hits the ground, which corresponds
+      to time $t_0$ satisfying $s(t_0)=0$. Thus, we have to solve 
+      $-\frac{1}{2}9.81t^2+75\sin(16)t+2=0$ for $t$. 
+      Translating this into a maxima session, note that maxima's trigonometric
+      functions only take angles in radians, hence the ~%pi*16/180~ as argument
+      of the $\sin$ function,
+      #+BEGIN_SRC maxima
+        tzero:solve(-1/2*9.81*t^2+sin(%pi*16/180)*75*t+2=0,t),numer;
+      #+END_SRC
+      will result in 
+      #+RESULTS:
+      $$\left[ t=-0.0946211718035283 , t=4.309259639953359 \right]. $$
+      So there are two possibilities, one in the past, where $t<0$ and
+      another one in the future where $t>0$, which is the solution of interest.
+
+    - How far will the golf-ball fly?
+      The horizontal movement is uniform given by $s(t)=s_i+v_it$. Choosing the
+      coordinate system so that its \(x\)-coordinate is zero at the golfer's
+      position, $s_i=0$ and the equation for horizontal movement is 
+      $s(t)=cos(16^\circ)*75*t$. For $t$ the second solution from the previous
+      calculation has to be extracted, which is the right-hand-side of the 
+      second entry in ~tzero~, ie ~rhs(tzero[2])~ in maxima parlance. Thus
+      #+BEGIN_SRC maxima
+        tzero:solve(-1/2*9.81*t^2+sin(%pi*16/180)*75*t+2=0,t),numer;
+        dist:cos(%pi*16/180)*75*rhs(tzero[2]),numer;
+      #+END_SRC
+      is the corresponding maxima session, again with the $16^\circ$ replaced
+      by its radians $\pi\frac{16}{180}$. The result is
+      #+RESULTS:
+        : 310.6744672305086m.
+
+ 2) <<golf_exercise_1>> A golfer propels a ball at $70\frac{m}{s}$ at an angle of $15^\circ$
+   from an elevation of $5m$. How long and how far will the golf ball fly?
+
+ 3) <<golf_exercise_2>> A golfer propels a ball at $65\frac{m}{s}$ at an angle of $30^\circ$
+   from an elevation of $2.5m$. How long and how far will the golf ball fly?
+*** Normal Form
+As for circles, there is a normal form for the equation of a parabola. It
+looks like
+#+NAME: normalParabola
+\begin{equation}
+y=a(x-v_x)^2+v_y
+\end{equation}
+and is sometimes referred to as vertex-form of the parabola. The vertex of a
+parabola is defined as be the point where it intersects its axis of symmetry
+and can be read off of equation ([[normalParabola]]) as $(v_x,v_y)$.
+
+The importance of the vertex lies with the fact that it is either a maximum
+or a minimum when viewing $y$ in $y=a(x-v_x)^2+v_y$ as a function of $x$.
+Since the square of a real number is always positive or zero $(x-v_x)^2=0$
+if $x=v_x$ hence the expression $(x-v_x)^2$ reaches its minimum there. As for
+$y=a(x-v_x)^2$, it will reach a minimum at the vertex if $a$ is positive and
+a maximum if $a$ is negative. 
+
+Going back to golfing example ([[golfExample]]) above, questions concerning the 
+maximum height of the golf-ball and when it reaches that maximum can now be 
+answered, provided the equation for its vertical movement is converted to the 
+normal form ([[normalParabola]]). This can be achieved by a procedure known as
+/completing the square/ and which is based on the formula
+#+NAME: binomial2
+\begin{equation}
+(x+c)^2=x^2+2cx+c^2
+\end{equation}
+for the square. Given an expression
+#+NAME: generalParabola
+\begin{equation}
+x^2+ax+b,
+\end{equation} 
+a comparison of the coefficients
+of the \(x\)-terms reveals that writing $a=2\frac{a}{2}$  transforms this to
+$x^2+2\frac{a}{2}x+b$. Now adding $\left(\frac{a}{2}\right)^2$ would give 
+$x^2+2\frac{a}{2}+\left(\frac{a}{2}\right)^2=(x+\frac{a}{2})^2$ but it would change equation
+([[generalParabola]]) into something else, unless $\left(\frac{a}{2}\right)^2$ was substracted 
+again. Doing that results in
+#+NAME: completingSimpleSquare
+\begin{equation}
+x^2+ax+b=x^2+2\frac{a}{2}x+\left(\frac{a}{2}\right)^2+b-\left(\frac{a}{2}\right)^2=
+\left(x+\frac{a}{2}\right)^2+b-\frac{a^2}{4}.
+\end{equation} 
+The expression $\left(x+\frac{a}{2}\right)^2+b-\frac{a^2}{4}$ is then the
+completed square of $x^2+ax+b$.
+
+In general, there will be a coefficient in front of the $x^2$ term so that
+expressions of the form $ax^2+bx+c$ will need to have their square completed.
+This requires factoring out $a$ first before completing the square resulting
+in
+#+NAME: completingSquare
+\begin{eqnarray}
+ax^2+bx+c=a\left(x^2+2\frac{b}{2a}x\right)+c&=& \\
+a\left(x^2+2\frac{b}{2a}+\left(\frac{b}{2a}\right)^2-\left(\frac{b}{2a}\right)^2\right)+c
+&=& \\
+a\left(x+\frac{b}{2a}\right)^2+c-\frac{b^2}{4a},
+\end{eqnarray}
+so that
+$a\left(x+\frac{b}{2a}\right)^2+c-\frac{b^2}{4a}$ is considered the completed
+square of $ax^2+bx+c$.
+
+There is no native function in maxima that completes the square, so we have
+to implement one ourselves.
+#+BEGIN_SRC maxima
+(%i1)  completeSquare(expr,var):= 
+          if coeff(expr,var,2)=0 then expr
+          else coeff(expr,var,2)*(var+coeff(expr,var,1)/(2*coeff(expr,var,2)))^2
+              +coeff(expr,var,0)-coeff(expr,var,1)^2/(4*coeff(expr,var,2))$
+#+END_SRC 
+This just returns the input expression if it has no quadratic term in its
+variable and computes the completed square otherwise.
+Testing this:
+#+BEGIN_SRC maxima
+(i%2)  completeSquare(a*x^2+b*x+c,x);
+#+END_SRC
+~(o%2)~ \[a\,\left(x+{{b}\over{2\,a}}\right)^2+c-{{b^2}\over{4\,a}}\]
+Now check by expanding the completed square, this should give the original
+equation back:
+#+BEGIN_SRC maxima
+  (%i3) expand(%);
+#+END_SRC
+~(%o3)~ \[a\,x^2+b\,x+c\]
+Remember that ~%~ refers to the previous result, so this would be the same as
+calling ~expand(completeSquare(a*x^2+b*x+c))~.
+Before closing the maxima session, the function should be saved so it doesn't
+have to be redefined every time it is needed:
+#+BEGIN_SRC maxima
+  (%i4) stringout("myFunctions.mac",functions)$
+#+END_SRC
+It can then later be reloaded with the ~load~ command. Note that this saves
+the file ~myFunctions.mac~ in the current directory as seen from maxima. Running
+~getcurrentdirectory();~ in the maxima session will reveal what maxima considers
+its current directory. If this directory is not convenient, a full path for
+the functions file can be given in the ~stringout~ command, depending on the
+operating system maxima runs on. On android, in particular, maxima may not have
+write permissions for its current directory and files have to be saved in the
+~Documents~ or ~Downloads~ folder.
+ 1) Returning now to example ([[golfExample]]), the following questions can be answered:
+ - When does the golf-ball from example ([[golfExample]]) reach its maximum
+   height?
+
+   Completing the square of the parabola 
+   $s(t)=2+75\sin(16^\circ)t-\frac{1}{2}9.81t^2$ describing the vertical motion
+   using maxima yields
+   #+BEGIN_SRC maxima
+     (%i4) completeSquare(2+75*sin(%pi*16/180)*t-9.81/2*t^2,t),numer;
+   #+END_SRC
+    ~(%o4)~ \[23.78209630785177-4.905\,\left(t-2.107319234074917\right)^2\]
+   The squared term $\left(t-2.107319234074917\right)^2$ has negative
+   coefficient $-4.905$ so the completed square version 
+   \[s(t)=23.78209630785177-4.905\,\left(t-2.107319234074917\right)^2\]
+   of the vertical displacement function is at a maximum when
+   $\left(t-2.107319234074917\right)=0$, ie when $t=2.107319234074917$. Thus,
+   the golf-ball reaches its maximum at about 2 seconds into its flight,
+   more precisely at $t=2.107319234074917$ seconds.
+
+ - What is the maximum height the golf-ball reaches during its flight?
+
+   This could be answered by evaluating $s(t)$ at $t=2.107319234074917$.
+   However, it is easier to read this directly off the completed square
+   \[s(t)=23.78209630785177-4.905\,\left(t-2.107319234074917\right)^2\]
+   because at the maximum, the quadratic term is zero and all that is left
+   is the constant term $23.78209630785177$, which represents the maximum
+   height.
+ - What is the horizontal component of the distance of the golfer from
+   the golf-ball when it reaches its maximum?
+
+   To answer this, the function for the horizontal displacement 
+   \[s_h(t)=\cos(16^\circ)75t\] has to be evaluated at the time 
+   $t=2.107319234074917$ when the maximum is reached:
+   #+BEGIN_SRC maxima
+     (%i5) ev(cos(%pi*16/180)*75*t,t=2.107319234074917,numer);
+   #+END_SRC
+     ~(%o5)~ \[ 151.926394562272\]
+   Thus, in a coordinate system that tracks the height of the golf-ball
+   depending on its horizontal distance from the golfer, the point
+   \[(151.926394562272,23.78209630785177)\] is the point where the maximum
+   is reached.
+ 2) In a similar way, discuss the maximum heights of the golf balls and their
+    corresponding positions for the exercises ([[golf_exercise_1]]) and
+    ([[golf_exercise_2]]).
 * Equations
 Equations in one variable are expressions of the form $L(x)=R(x)$ where
 the variable $x$ is a placeholder for an unknown quantity. Solving an equation
