@@ -505,6 +505,114 @@ write permissions for its current directory and files have to be saved in the
  2) In a similar way, discuss the maximum heights of the golf balls and their
     corresponding positions for the exercises ([[golf_exercise_1]]) and
     ([[golf_exercise_2]]).
+*** Tangent Lines
+For every parabola, there are three kind of lines
+ - lines that don't intersect the parabola
+ - lines that intersect the parabola in two points
+ - lines that intersect the parabola in one point.
+The lines that intersect the parabola in only one point are called 
+/tangent lines/ and they are of special interest in many physical applications.
+
+The points of intersection of a parabola $y=ax^2+bx+c$ with a line $y=mx+n$ have
+\(x\)-coordinates satisfying \[mx+n=ax^2+bx+c\] or \[ax^2+bx+c-mx-n=0,\] which
+is a quadratic equation
+#+NAME:line_parabola
+\begin{equation}
+ax^2+(b-m)x+c-n=0
+\end{equation}
+Completing the square on this equation in maxima results in
+#+BEGIN_SRC maxima
+  (%i6) completeSquare(a*x^2+(b-m)*x+c-n,x);
+#+END_SRC
+  ~(%o6)~ \[a\,\left(x+{{b-m}\over{2\,a}}\right)^2-n-{{\left(b-m\right)^2 }\over{4\,a}}+c\]
+so that the \(x\)-coordinates of the intersection points must satisfy
+\[
+a\,\left(x+{{b-m}\over{2\,a}}\right)^2-n-{{\left(b-m\right)^2
+ }\over{4\,a}}+c=0
+\]
+or
+#+NAME:line_parabola_normal
+\begin{equation}
+\left(x+{{b-m}\over{2\,a}}\right)^2=\frac{n-c}{a}+{{\left(b-m\right)^2
+ }\over{4\,a^2}}
+\end{equation}
+Since the left hand side of equation ([[line_parabola_normal]]) is a square and
+thus always positive, it can have solutions for $x$ only if the right hand side
+is positive or zero as well. If it is positive,
+\[\frac{n-c}{a}+{{\left(b-m\right)^2 }\over{4\,a^2}}>0\] then
+equation ([[line_parabola_normal]]) has two solutions following from
+\[ \left(x+{{b-m}\over{2\,a}}\right)^2=\frac{n-c}{a}+{{\left(b-m\right)^2
+ }\over{4\,a^2}}\]
+Since the left hand side of equation ([[line_parabola_normal]]) is a square and
+thus always positive, it can have solutions for $x$ only if the right hand side
+is positive or zero as well. If it is positive,
+\[ \frac{n-c}{a}+{{\left(b-m\right)^2 }\over{4\,a^2}}>0\] then
+equation ([[line_parabola_normal]]) has two solutions following from
+\[ x+{{b-m}\over{2\,a}}=\sqrt{\frac{n-c}{a}+{{\left(b-m\right)^2 }\over{4\,a^2}}}\]
+and
+\[ x+{{b-m}\over{2\,a}}=-\sqrt{\frac{n-c}{a}+{{\left(b-m\right)^2 }\over{4\,a^2}}},\]
+respectively, because the square root is defined in that case. If, however,
+\[ \frac{n-c}{a}+{{\left(b-m\right)^2 }\over{4\,a^2}}=0\] then equation
+([[line_parabola_normal]]) has only one solution following from
+\[ \left(x+{{b-m}\over{2\,a}}\right)^2=0, \] namely
+\[ x+{{b-m}\over{2\,a}}=0 \] or
+\[ x=-{{b-m}\over{2\,a}}.\]
+Solving this equation for $m$ is the answer to a common problem in 
+applications: Given a parabola $y=ax^2+bx+c$ and a point $(x,y)$ on that 
+parabola, find the slope of the tangent line through that point. It is simply
+#+NAME: parabola_tangent_slope 
+\begin{equation}
+m=2ax+b.
+\end{equation}
+Viewed as a function of $x$ whose value is the slope of the tangent line of
+the parabola $y=ax^2+bx+c$ at $x$, $m(x)=2ax+b$ is called the first derivative
+of the function $y(x)=ax^+bx+c$.
+*** The Slope of Tangent Lines and its Meaning
+The slope of tangent lines to functions is of utmost importance in applications
+and will be analysed here by way of the example of parabolas.
+
+Harking back to the example of the golf ball, its vertical position is 
+described by a function of the form $s(t)=at^2+bt+c$. A common question concerns
+its instantaneous velocity at a certain time $t_0$ during its flight. On the
+face of it, this doesn't make much sense because velocity is a change in 
+position between two points in time defined as
+\[v=\frac{s_2-s_1}{t_2-t_1},\]
+which involves two points in time rather than one.
+
+One way to deal with this apparent contradiction is to take a slightly different
+view of velocity and consider it an average change of position over an interval
+of time. Taking a positive number $h$, the instantaneous velocity $v(t_0)$ at 
+$t_0$ can be written as
+\[v(t_0)=\frac{s(t_0+h)-s(t_0-h)}{2h},\]
+which is the displacement occuring around time $t_0$ from $s(t_0-h)$ to 
+$s(t_0+h)$ taking $2h$ units of time. Calculating this in maxima, the result
+is
+#+BEGIN_SRC maxima
+(%i7) dvt0:a*(t0+h)^2+b*(t0+h)+c-a*(t0-h)^2-b*(t0-h)-c$
+(%i8) vt0: facsum(dvt0,x)/(2*h); /*expand dvt0 to a poynomial in x and
+                                   divide by 2h */
+#+END_SRC
+~(o%8)~ \[2\,a\,t_{0}+b\]
+Comparing this to equation ([[parabola_tangent_slope]]), this is just the slope 
+of the tangent line to $s(t)=at^2+bt+c$ at $t_0$.
+
+In summary, the slope of the tangent line of $s(t)$ at $t_0$ is the 
+instantaneous velocity of the vertical motions at time $t_0$. More generally,
+since the velocity describes a change in position, the slope of a tangent line
+to a parabola $y(x)=ax^2+bx+c$ at a point $x_0$ describes the change of the
+function $y(x)$ near the point $x_0$.
+
+In the case of the parabola, the previous example shows that the definition of
+the instantaneous velocity at $t_0$ does not depend on the time interval $h$
+chosen to calculate the average velocity around time $t_0$. This is no longer
+true for other functions. Consider $f(t)=t^3$ and calculate $f(t_0+h)-f(t_0-h)$:
+#+BEGIN_SRC maxima
+  (i%9) df3:facsum((t0+h)^3-(t0-h)^3,x);
+#+END_SRC
+~(o%9)~ \[2\,h\,\left(3\,t0^2+h^2\right)\]
+Here, $3t^2+h^2$ will be left after dividing by the time interval $2h$, so
+\[\frac{f(t+h)-f(t-h)}{2h}\]
+is no longer independent of the environment $h$ chosen around the point $t_0$.
 * Equations
 Equations in one variable are expressions of the form $L(x)=R(x)$ where
 the variable $x$ is a placeholder for an unknown quantity. Solving an equation
@@ -730,6 +838,7 @@ As an aside, it is actually known that every polynomial of degree $n$ can be
 factored into a product of $n$ linear factors, however only with coefficients
 in the complex numbers, so this method can also be used with polynomial
 equations of higher degree.
+
 * Vectors in the Plane
 Vectors are entities which have a direction in addition to a quantity. The
 quantity associated with a vector is its /length/. The description of its
