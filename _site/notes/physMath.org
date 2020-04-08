@@ -318,9 +318,13 @@ things, the trajectories of objects subject to constant acceleration. For
 example, a freely falling body has displacement
 \[s(t)=s_i+v_it-\frac{1}{2}gt^2\]
 at time $t$, where $s_i$ is its initial position, $v_i$ its initial velocity
-and $g$ the acceleration due to gravity, about $9.81\frac{m}{s^2}$. This means
+and $g$ the acceleration due to gravity, about $9.81\frac{m}{s^2}$. 
+This means
 it traces out a parabola in a coordinate system plotting displacement $s$ vs. 
-time $t$.
+time $t$ looking like figure ([[fig:verticalThrow]]).
+#+CAPTION: Vertical Component of a Thrown Object
+#+NAME: fig:verticalThrow
+ [[./throw.png]]
  1) <<golfExample>> A golfer propels a ball at $75\frac{m}{s}$ at an angle of $16^\circ$
    from an elevation of $2m$.
     - How long does the golf-ball fly?
@@ -613,6 +617,43 @@ true for other functions. Consider $f(t)=t^3$ and calculate $f(t_0+h)-f(t_0-h)$:
 Here, $3t^2+h^2$ will be left after dividing by the time interval $2h$, so
 \[\frac{f(t+h)-f(t-h)}{2h}\]
 is no longer independent of the environment $h$ chosen around the point $t_0$.
+Nevertheless, it is still possible to define tangent lines in more general cases
+such as the above, but a bit more care needs to be taken and a more thorough
+analysis of what such a definition is supposed to accomplish.
+** Ellipses and Circles
+Ellipses are conic sections whose general form ([[generalConic]]) can be 
+converted to the form
+#+NAME: normalEllipse
+\begin{equation}
+\frac{\left(x-c_x\right)^2}{a^2}+\frac{\left(y-c_y\right)^2}{b^2}=1.
+\end{equation}
+The particular case where $a=b$ is the circle where the common value
+of $a$ and $b$ is called $r$ because it represents the radius of the
+circle. The normal form of the circle is usually written as
+#+NAME: normalCircle
+\begin{equation}
+\left(x-c_x\right)^2+\left(y-c_y\right)^2=r^2,
+\end{equation}
+which is obtained from the normal form ([[normalEllipse]]) of the ellipse
+by multiplying equation ([[normalEllipse]]) by the common value $r^2=a^2=b^2$.
+** Hyperbolas
+In the conic sections presented so far, the signs of the coefficients
+of the quadratic terms of the normal forms, if both present, where the same,
+ie they were either both positive or both negative. Hyperbolas, on the other
+hand are characterized by opposite signs of these coefficients, with their
+normal form given by
+#+NAME: normalHyperbola
+\begin{equation}
+\frac{\left(x-c_x\right)^2}{a^2}-\frac{\left(y-c_y\right)^2}{b^2}=1
+\end{equation}
+or, exchanging $x$ and $y$ coordinates,
+#+NAME: normalConjugateHyperbola
+\begin{equation}
+\frac{\left(y-c_y\right)^2}{a^2}-\frac{\left(x-c_x\right)^2}{b^2}=1
+\end{equation}
+with the latter often referred to as /conjugate/ hyperbola.
+* TODO Functions                                                   :noexport:
+
 * Equations
 Equations in one variable are expressions of the form $L(x)=R(x)$ where
 the variable $x$ is a placeholder for an unknown quantity. Solving an equation
